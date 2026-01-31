@@ -1,59 +1,87 @@
 import { Platform } from "react-native";
 
-// Pastel Light Theme Colors
-const pastelLight = {
-  primary: "#5D7A6E",
-  primaryLight: "#8BA898",
-  primaryLighter: "#B8D4C4",
-  background: "#F5F0E8",
-  surface: "#EDE7DC",
-  accent: "#D4A574",
+// Pastel accent colors (no green)
+const pastelAccents = {
+  coral: "#E8A598",
+  peach: "#F5C4A1",
+  lavender: "#C4B4D4",
+  blush: "#E8B4B8",
+  cream: "#F5E6D3",
 };
 
-// Dark Theme Colors
-const darkTheme = {
-  primary: "#B8D4C4",
-  primaryLight: "#8BA898",
-  primaryLighter: "#5D7A6E",
-  background: "#1A1F1C",
-  surface: "#252B27",
-  accent: "#E8C49A",
+// Toned-down pastel accents for dark mode
+const mutedAccents = {
+  coral: "#C48878",
+  peach: "#D4A481",
+  lavender: "#A494B4",
+  blush: "#C89498",
+  cream: "#D4C6B3",
 };
 
 export const Colors = {
   light: {
-    text: "#3D4A44",
-    textSecondary: "#6B7A72",
+    // Core colors
+    text: "#4A4A4A",
+    textSecondary: "#7A7A7A",
     buttonText: "#FFFFFF",
-    tabIconDefault: "#8BA898",
-    tabIconSelected: "#5D7A6E",
-    link: "#5D7A6E",
-    backgroundRoot: "#F5F0E8",
-    backgroundDefault: "#EDE7DC",
-    backgroundSecondary: "#E2D9CC",
-    backgroundTertiary: "#D4C9BA",
-    border: "#5D7A6E",
-    success: "#8BA898",
-    warning: "#D4A574",
-    error: "#C4776A",
-    ...pastelLight,
+    
+    // Backgrounds - WHITE based
+    backgroundRoot: "#FFFFFF",
+    backgroundDefault: "#FAFAFA",
+    backgroundSecondary: "#F5F5F5",
+    backgroundTertiary: "#EFEFEF",
+    
+    // Primary accent - coral/peach pastel
+    primary: "#E8A598",
+    primaryLight: "#F5C4A1",
+    primaryLighter: "#F5E6D3",
+    
+    // UI elements
+    border: "#D4A481",
+    tabIconDefault: "#AAAAAA",
+    tabIconSelected: "#E8A598",
+    link: "#C4B4D4",
+    
+    // Status colors
+    success: "#A8C4A8",
+    warning: "#F5C4A1",
+    error: "#E8A598",
+    
+    // Accent palette
+    accent: pastelAccents.lavender,
+    ...pastelAccents,
   },
   dark: {
-    text: "#E8E4DC",
-    textSecondary: "#A8A49C",
-    buttonText: "#1A1F1C",
-    tabIconDefault: "#6B7A72",
-    tabIconSelected: "#B8D4C4",
-    link: "#B8D4C4",
-    backgroundRoot: "#1A1F1C",
-    backgroundDefault: "#252B27",
-    backgroundSecondary: "#323A35",
-    backgroundTertiary: "#424C46",
-    border: "#8BA898",
-    success: "#8BA898",
-    warning: "#E8C49A",
-    error: "#D4948A",
-    ...darkTheme,
+    // Core colors
+    text: "#E8E8E8",
+    textSecondary: "#A8A8A8",
+    buttonText: "#2A2A2A",
+    
+    // Backgrounds - GRAY based
+    backgroundRoot: "#1A1A1A",
+    backgroundDefault: "#2A2A2A",
+    backgroundSecondary: "#3A3A3A",
+    backgroundTertiary: "#4A4A4A",
+    
+    // Primary accent - muted coral/peach
+    primary: "#C48878",
+    primaryLight: "#D4A481",
+    primaryLighter: "#D4C6B3",
+    
+    // UI elements
+    border: "#A48468",
+    tabIconDefault: "#6A6A6A",
+    tabIconSelected: "#C48878",
+    link: "#A494B4",
+    
+    // Status colors
+    success: "#88A488",
+    warning: "#D4A481",
+    error: "#C48878",
+    
+    // Accent palette
+    accent: mutedAccents.lavender,
+    ...mutedAccents,
   },
 };
 

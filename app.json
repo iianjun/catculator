@@ -14,7 +14,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#F5F0E8",
+        "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/images/icon.png"
       },
       "package": "com.catculator.app",
@@ -32,9 +32,9 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#F5F0E8",
+          "backgroundColor": "#FFFFFF",
           "dark": {
-            "backgroundColor": "#1A1F1C"
+            "backgroundColor": "#1A1A1A"
           }
         }
       ],
