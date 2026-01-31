@@ -53,12 +53,8 @@ export function PixelSelect({
                   styles.option,
                   {
                     backgroundColor: isSelected
-                      ? isDark
-                        ? theme.primaryLighter
-                        : theme.primary
-                      : isDark
-                      ? theme.backgroundDefault
-                      : "#FFFFFF",
+                      ? theme.primary
+                      : theme.backgroundDefault,
                     borderColor: theme.border,
                   },
                 ]}
@@ -69,9 +65,7 @@ export function PixelSelect({
                     styles.optionLabel,
                     {
                       color: isSelected
-                        ? isDark
-                          ? theme.backgroundRoot
-                          : theme.buttonText
+                        ? theme.buttonText
                         : theme.text,
                     },
                   ]}

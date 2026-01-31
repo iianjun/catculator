@@ -60,12 +60,12 @@ export function PixelInput({
             style={[
               styles.stepperButton,
               {
-                backgroundColor: theme.backgroundSecondary,
+                backgroundColor: theme.primary,
                 borderColor: theme.border,
               },
             ]}
           >
-            <Feather name="minus" size={20} color={isDark ? theme.text : theme.buttonText} />
+            <Feather name="minus" size={20} color={theme.buttonText} />
           </Pressable>
         ) : null}
         <View style={styles.inputWrapper}>
@@ -108,12 +108,12 @@ export function PixelInput({
             style={[
               styles.stepperButton,
               {
-                backgroundColor: theme.backgroundSecondary,
+                backgroundColor: theme.primary,
                 borderColor: theme.border,
               },
             ]}
           >
-            <Feather name="plus" size={20} color={isDark ? theme.text : theme.buttonText} />
+            <Feather name="plus" size={20} color={theme.buttonText} />
           </Pressable>
         ) : null}
       </View>

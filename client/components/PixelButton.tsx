@@ -62,14 +62,14 @@ export function PixelButton({
 
   const getBackgroundColor = () => {
     if (variant === "primary") {
-      return isDark ? theme.primaryLighter : theme.primary;
+      return theme.primary;
     }
-    return isDark ? theme.backgroundSecondary : theme.backgroundDefault;
+    return theme.backgroundDefault;
   };
 
   const getTextColor = () => {
     if (variant === "primary") {
-      return isDark ? theme.backgroundRoot : theme.buttonText;
+      return theme.buttonText;
     }
     return theme.text;
   };

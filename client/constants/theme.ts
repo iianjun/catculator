@@ -1,52 +1,59 @@
 import { Platform } from "react-native";
 
-// Game Boy Green Color Palette
-const pixelGreen = {
-  primary: "#0F380F",
-  primaryLight: "#306230",
-  primaryLighter: "#8BAC0F",
-  background: "#9BBC0F",
-  surface: "#8BAC0F",
+// Pastel Light Theme Colors
+const pastelLight = {
+  primary: "#5D7A6E",
+  primaryLight: "#8BA898",
+  primaryLighter: "#B8D4C4",
+  background: "#F5F0E8",
+  surface: "#EDE7DC",
+  accent: "#D4A574",
+};
+
+// Dark Theme Colors
+const darkTheme = {
+  primary: "#B8D4C4",
+  primaryLight: "#8BA898",
+  primaryLighter: "#5D7A6E",
+  background: "#1A1F1C",
+  surface: "#252B27",
+  accent: "#E8C49A",
 };
 
 export const Colors = {
   light: {
-    text: "#0F380F",
-    textSecondary: "#306230",
-    buttonText: "#9BBC0F",
-    tabIconDefault: "#306230",
-    tabIconSelected: "#0F380F",
-    link: "#0F380F",
-    backgroundRoot: "#9BBC0F",
-    backgroundDefault: "#8BAC0F",
-    backgroundSecondary: "#306230",
-    backgroundTertiary: "#0F380F",
-    border: "#0F380F",
-    success: "#8BAC0F",
-    warning: "#306230",
-    error: "#0F380F",
-    ...pixelGreen,
+    text: "#3D4A44",
+    textSecondary: "#6B7A72",
+    buttonText: "#FFFFFF",
+    tabIconDefault: "#8BA898",
+    tabIconSelected: "#5D7A6E",
+    link: "#5D7A6E",
+    backgroundRoot: "#F5F0E8",
+    backgroundDefault: "#EDE7DC",
+    backgroundSecondary: "#E2D9CC",
+    backgroundTertiary: "#D4C9BA",
+    border: "#5D7A6E",
+    success: "#8BA898",
+    warning: "#D4A574",
+    error: "#C4776A",
+    ...pastelLight,
   },
   dark: {
-    text: "#9BBC0F",
-    textSecondary: "#8BAC0F",
-    buttonText: "#0F380F",
-    tabIconDefault: "#8BAC0F",
-    tabIconSelected: "#9BBC0F",
-    link: "#8BAC0F",
-    backgroundRoot: "#0F380F",
-    backgroundDefault: "#1A4A1A",
-    backgroundSecondary: "#306230",
-    backgroundTertiary: "#8BAC0F",
-    border: "#8BAC0F",
-    success: "#8BAC0F",
-    warning: "#306230",
-    error: "#9BBC0F",
-    primary: "#9BBC0F",
-    primaryLight: "#8BAC0F",
-    primaryLighter: "#306230",
-    background: "#0F380F",
-    surface: "#1A4A1A",
+    text: "#E8E4DC",
+    textSecondary: "#A8A49C",
+    buttonText: "#1A1F1C",
+    tabIconDefault: "#6B7A72",
+    tabIconSelected: "#B8D4C4",
+    link: "#B8D4C4",
+    backgroundRoot: "#1A1F1C",
+    backgroundDefault: "#252B27",
+    backgroundSecondary: "#323A35",
+    backgroundTertiary: "#424C46",
+    border: "#8BA898",
+    success: "#8BA898",
+    warning: "#E8C49A",
+    error: "#D4948A",
+    ...darkTheme,
   },
 };
 
@@ -63,7 +70,7 @@ export const Spacing = {
   "5xl": 64,
   inputHeight: 48,
   buttonHeight: 56,
-  pixelBorder: 4,
+  pixelBorder: 3,
 };
 
 // No rounded corners for pixel aesthetic
@@ -148,5 +155,4 @@ export const Fonts = Platform.select({
 // Pixel shadow style
 export const PixelShadow = {
   offset: 4,
-  color: "#0F380F",
 };
