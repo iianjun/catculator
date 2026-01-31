@@ -9,7 +9,7 @@ interface UseScreenOptionsParams {
 }
 
 export function useScreenOptions({
-  transparent = true,
+  transparent = false,
 }: UseScreenOptionsParams = {}): NativeStackNavigationOptions {
   const { theme, isDark } = useTheme();
 
@@ -18,12 +18,12 @@ export function useScreenOptions({
     headerTransparent: transparent,
     headerBlurEffect: isDark ? "dark" : "light",
     headerTintColor: theme.text,
+    headerTitleStyle: {
+      fontFamily: "PressStart2P_400Regular",
+      fontSize: 12,
+    },
     headerStyle: {
-      backgroundColor: Platform.select({
-        ios: undefined,
-        android: theme.backgroundRoot,
-        web: theme.backgroundRoot,
-      }),
+      backgroundColor: theme.backgroundRoot,
     },
     gestureEnabled: true,
     gestureDirection: "horizontal",

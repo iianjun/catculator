@@ -7,12 +7,14 @@ import {
   ScrollView,
   Text,
   Modal,
+  Image,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
+import { PixelButton } from "@/components/PixelButton";
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
+import { Spacing, Fonts } from "@/constants/theme";
 
 export type ErrorFallbackProps = {
   error: Error;
@@ -45,11 +47,11 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
       {__DEV__ ? (
         <Pressable
           onPress={() => setIsModalVisible(true)}
-          style={({ pressed }) => [
+          style={[
             styles.topButton,
             {
               backgroundColor: theme.backgroundDefault,
-              opacity: pressed ? 0.8 : 1,
+              borderColor: theme.border,
             },
           ]}
         >
@@ -58,32 +60,25 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
       ) : null}
 
       <View style={styles.content}>
-        <ThemedText type="h1" style={styles.title}>
-          Something went wrong
+        <Image
+          source={require("../../assets/images/cat-worried.png")}
+          style={styles.catImage}
+          resizeMode="contain"
+        />
+
+        <ThemedText type="h2" style={styles.title}>
+          OOPS!
         </ThemedText>
 
         <ThemedText type="body" style={styles.message}>
-          Please reload the app to continue.
+          Catculator had a little accident. The cat knocked something over!
         </ThemedText>
 
-        <Pressable
-          onPress={handleRestart}
-          style={({ pressed }) => [
-            styles.button,
-            {
-              backgroundColor: theme.link,
-              opacity: pressed ? 0.9 : 1,
-              transform: [{ scale: pressed ? 0.98 : 1 }],
-            },
-          ]}
-        >
-          <ThemedText
-            type="body"
-            style={[styles.buttonText, { color: theme.buttonText }]}
-          >
-            Try Again
-          </ThemedText>
-        </Pressable>
+        <View style={styles.buttonContainer}>
+          <PixelButton onPress={handleRestart} size="large">
+            TRY AGAIN
+          </PixelButton>
+        </View>
       </View>
 
       {__DEV__ ? (
@@ -96,15 +91,12 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
           <View style={styles.modalOverlay}>
             <ThemedView style={styles.modalContainer}>
               <View style={styles.modalHeader}>
-                <ThemedText type="h2" style={styles.modalTitle}>
-                  Error Details
+                <ThemedText type="h4" style={styles.modalTitle}>
+                  ERROR LOG
                 </ThemedText>
                 <Pressable
                   onPress={() => setIsModalVisible(false)}
-                  style={({ pressed }) => [
-                    styles.closeButton,
-                    { opacity: pressed ? 0.6 : 1 },
-                  ]}
+                  style={styles.closeButton}
                 >
                   <Feather name="x" size={24} color={theme.text} />
                 </Pressable>
@@ -118,7 +110,10 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
                 <View
                   style={[
                     styles.errorContainer,
-                    { backgroundColor: theme.backgroundDefault },
+                    {
+                      backgroundColor: theme.backgroundDefault,
+                      borderColor: theme.border,
+                    },
                   ]}
                 >
                   <Text
@@ -155,18 +150,25 @@ const styles = StyleSheet.create({
   content: {
     alignItems: "center",
     justifyContent: "center",
-    gap: Spacing.lg,
     width: "100%",
     maxWidth: 600,
   },
+  catImage: {
+    width: 120,
+    height: 120,
+    marginBottom: Spacing.xl,
+  },
   title: {
     textAlign: "center",
-    lineHeight: 40,
+    marginBottom: Spacing.md,
   },
   message: {
     textAlign: "center",
-    opacity: 0.7,
-    lineHeight: 24,
+    marginBottom: Spacing.xl,
+    paddingHorizontal: Spacing.lg,
+  },
+  buttonContainer: {
+    width: "100%",
   },
   topButton: {
     position: "absolute",
@@ -174,30 +176,11 @@ const styles = StyleSheet.create({
     right: Spacing.lg,
     width: 44,
     height: 44,
-    borderRadius: BorderRadius.md,
+    borderWidth: Spacing.pixelBorder,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     zIndex: 10,
-  },
-  button: {
-    paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    paddingHorizontal: Spacing["2xl"],
-    minWidth: 200,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  buttonText: {
-    fontWeight: "600",
-    textAlign: "center",
-    fontSize: 16,
   },
   modalOverlay: {
     flex: 1,
@@ -207,8 +190,6 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: "100%",
     height: "90%",
-    borderTopLeftRadius: BorderRadius.lg,
-    borderTopRightRadius: BorderRadius.lg,
   },
   modalHeader: {
     flexDirection: "row",
@@ -217,12 +198,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingTop: Spacing.lg,
     paddingBottom: Spacing.md,
-    borderBottomWidth: 1,
+    borderBottomWidth: Spacing.pixelBorder,
     borderBottomColor: "rgba(128, 128, 128, 0.2)",
   },
-  modalTitle: {
-    fontWeight: "600",
-  },
+  modalTitle: {},
   closeButton: {
     padding: Spacing.xs,
   },
@@ -234,13 +213,13 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     width: "100%",
-    borderRadius: BorderRadius.md,
     overflow: "hidden",
     padding: Spacing.lg,
+    borderWidth: Spacing.pixelBorder,
   },
   errorText: {
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 10,
+    lineHeight: 16,
     width: "100%",
   },
 });

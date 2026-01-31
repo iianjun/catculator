@@ -1,32 +1,55 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import MainTabNavigator from "@/navigation/MainTabNavigator";
-import ModalScreen from "@/screens/ModalScreen";
+
+import CalculatorScreen from "@/screens/CalculatorScreen";
+import ResultsScreen from "@/screens/ResultsScreen";
+import FoodDetailsScreen from "@/screens/FoodDetailsScreen";
+import { PixelHeader } from "@/components/PixelHeader";
 import { useScreenOptions } from "@/hooks/useScreenOptions";
+import { CatStatus } from "@/lib/calculator";
 
 export type RootStackParamList = {
-  Main: undefined;
-  Modal: undefined;
+  Calculator: undefined;
+  Results: {
+    weight: number;
+    catStatus: CatStatus;
+    rer: number;
+    der: number;
+    multiplier: number;
+  };
+  FoodDetails: {
+    der: number;
+    weight: number;
+    catStatus: CatStatus;
+  };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
-  const screenOptions = useScreenOptions();
+  const screenOptions = useScreenOptions({ transparent: false });
 
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
-        name="Main"
-        component={MainTabNavigator}
-        options={{ headerShown: false }}
+        name="Calculator"
+        component={CalculatorScreen}
+        options={{
+          headerTitle: () => <PixelHeader title="CATCULATOR" />,
+        }}
       />
       <Stack.Screen
-        name="Modal"
-        component={ModalScreen}
+        name="Results"
+        component={ResultsScreen}
         options={{
-          presentation: "modal",
-          headerTitle: "Modal",
+          headerTitle: "RESULTS",
+        }}
+      />
+      <Stack.Screen
+        name="FoodDetails"
+        component={FoodDetailsScreen}
+        options={{
+          headerTitle: "FOOD SETUP",
         }}
       />
     </Stack.Navigator>

@@ -56,6 +56,13 @@ export function ThemedText({
   };
 
   return (
-    <Text style={[{ color: getColor() }, getTypeStyle(), style]} {...rest} />
+    <Text
+      style={[
+        { color: getColor(), fontFamily: "PressStart2P_400Regular" },
+        getTypeStyle(),
+        style,
+      ]}
+      {...rest}
+    />
   );
 }
