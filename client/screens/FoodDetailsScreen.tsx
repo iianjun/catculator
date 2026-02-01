@@ -1,5 +1,11 @@
 import React, { useState, useMemo } from "react";
-import { StyleSheet, View, Image, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  ScrollView,
+  useWindowDimensions,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -37,13 +43,15 @@ export default function FoodDetailsScreen() {
   const [foodType, setFoodType] = useState<FoodType>("both");
   const [wetFoodCalories, setWetFoodCalories] = useState("80");
   const [dryFoodCaloriesPerKg, setDryFoodCaloriesPerKg] = useState("3500");
+  const [treatCalories, setTreatCalories] = useState("0");
 
   const wetCal = parseFloat(wetFoodCalories) || 0;
   const dryCal = parseFloat(dryFoodCaloriesPerKg) || 0;
+  const treatCal = parseFloat(treatCalories) || 0;
 
   const calculation = useMemo(() => {
-    return calculateFoodPortions(der, foodType, wetCal, dryCal);
-  }, [der, foodType, wetCal, dryCal]);
+    return calculateFoodPortions(der, foodType, wetCal, dryCal, treatCal);
+  }, [der, foodType, wetCal, dryCal, treatCal]);
 
   const handleDone = () => {
     navigation.popToTop();
@@ -98,6 +106,15 @@ export default function FoodDetailsScreen() {
             unit="kcal/kg"
           />
         ) : null}
+
+        <PixelInput
+          label="TREAT CALORIES"
+          value={treatCalories}
+          onChangeText={setTreatCalories}
+          placeholder="0"
+          keyboardType="decimal-pad"
+          unit="kcal"
+        />
       </View>
 
       <View style={styles.resultSection}>
@@ -105,7 +122,11 @@ export default function FoodDetailsScreen() {
           DAILY PORTIONS
         </ThemedText>
 
-        <View style={styles.resultCards}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.resultCards}
+        >
           {foodType === "wet" || foodType === "both" ? (
             <PixelCard style={styles.resultCard}>
               <Image
@@ -147,7 +168,23 @@ export default function FoodDetailsScreen() {
               </ThemedText>
             </PixelCard>
           ) : null}
-        </View>
+
+          {treatCal > 0 ? (
+            <PixelCard style={styles.resultCard}>
+              <Image
+                source={require("../../assets/images/churu-treats.webp")}
+                style={styles.foodIcon}
+                resizeMode="contain"
+              />
+              <ThemedText type="body" style={styles.foodLabel}>
+                Treats
+              </ThemedText>
+              <ThemedText type="h3" style={styles.foodValue}>
+                {treatCal} kcal
+              </ThemedText>
+            </PixelCard>
+          ) : null}
+        </ScrollView>
 
         {foodType === "both" && wetCal > 0 ? (
           <PixelCard style={styles.breakdownCard}>
@@ -158,6 +195,11 @@ export default function FoodDetailsScreen() {
               Dry food: {Math.round(calculation.dryFoodGrams * (dryCal / 1000))}{" "}
               kcal
             </ThemedText>
+            {treatCal > 0 ? (
+              <ThemedText type="body" style={styles.breakdownText}>
+                Treats: {treatCal} kcal
+              </ThemedText>
+            ) : null}
             <ThemedText
               type="body"
               style={[styles.breakdownText, styles.totalText]}
@@ -207,9 +249,10 @@ const styles = StyleSheet.create({
   resultCards: {
     flexDirection: "row",
     gap: Spacing.md,
+    paddingBottom: Spacing.sm,
   },
   resultCard: {
-    flex: 1,
+    height: "100%",
     alignItems: "center",
   },
   foodIcon: {

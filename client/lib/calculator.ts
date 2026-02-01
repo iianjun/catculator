@@ -90,6 +90,7 @@ export function calculateFoodPortions(
   foodType: FoodType,
   wetFoodCalories: number, // Total kcal in wet food
   dryFoodCaloriesPerKg: number, // kcal per kg of dry food
+  treatCalories: number = 0, // kcal from treats
 ): FoodCalculation {
   let remainingCalories = derCalories;
   let wetFoodGrams = 0;
@@ -97,20 +98,24 @@ export function calculateFoodPortions(
 
   if (foodType === "wet") {
     // All calories from wet food (assuming standard 85g pouch)
-    // User provides total wet food calories, we calculate how many pouches
+    const effectiveDer = Math.max(0, derCalories - treatCalories);
     wetFoodGrams =
-      wetFoodCalories > 0 ? (derCalories / wetFoodCalories) * 85 : 0;
+      wetFoodCalories > 0 ? (effectiveDer / wetFoodCalories) * 85 : 0;
     remainingCalories = 0;
   } else if (foodType === "dry") {
     // All calories from dry food
+    const effectiveDer = Math.max(0, derCalories - treatCalories);
     if (dryFoodCaloriesPerKg > 0) {
       // Convert kcal/kg to grams needed
-      dryFoodGrams = (derCalories / dryFoodCaloriesPerKg) * 1000;
+      dryFoodGrams = (effectiveDer / dryFoodCaloriesPerKg) * 1000;
     }
     remainingCalories = 0;
   } else if (foodType === "both") {
-    // Subtract wet food calories first, then calculate dry food
-    remainingCalories = Math.max(0, derCalories - wetFoodCalories);
+    // Subtract wet food calories first, then treats, then calculate dry food
+    remainingCalories = Math.max(
+      0,
+      derCalories - wetFoodCalories - treatCalories,
+    );
     wetFoodGrams = 85; // Assume one standard pouch
 
     if (dryFoodCaloriesPerKg > 0 && remainingCalories > 0) {
