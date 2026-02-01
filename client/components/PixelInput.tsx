@@ -8,7 +8,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { Spacing, PixelShadow } from "@/constants/theme";
 
 interface PixelInputProps {
-  label: string;
+  label?: string;
   value: string;
   onChangeText: (text: string) => void;
   placeholder?: string;
@@ -50,9 +50,11 @@ export function PixelInput({
 
   return (
     <View style={styles.container}>
-      <ThemedText type="body" style={styles.label}>
-        {label}
-      </ThemedText>
+      {label && (
+        <ThemedText type="body" style={styles.label}>
+          {label}
+        </ThemedText>
+      )}
       <View style={styles.inputRow}>
         {showStepper ? (
           <Pressable

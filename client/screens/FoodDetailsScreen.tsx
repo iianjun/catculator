@@ -10,6 +10,7 @@ import { PixelCard } from "@/components/PixelCard";
 import { PixelInput } from "@/components/PixelInput";
 import { PixelSelect } from "@/components/PixelSelect";
 import { PixelModal } from "@/components/PixelModal";
+import { PixelTooltip } from "@/components/PixelTooltip";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing } from "@/constants/theme";
 import { FoodType, calculateFoodPortions } from "@/lib/calculator";
@@ -133,35 +134,76 @@ export default function FoodDetailsScreen() {
         />
 
         {foodType === "wet" || foodType === "both" ? (
-          <PixelInput
-            label="WET FOOD CALORIES"
-            value={wetFoodCalories}
-            onChangeText={setWetFoodCalories}
-            placeholder="80"
-            keyboardType="decimal-pad"
-            unit="kcal/pouch"
-          />
+          <View>
+            <View style={styles.labelWithTooltip}>
+              <ThemedText type="body">DRY FOOD CALORIES</ThemedText>
+              <PixelTooltip
+                content={
+                  "Where to find:\n\nCheck the label for calories listed per container, such as 'kcal/can' or 'kcal/pouch' (e.g., 169 kcal ME/can)."
+                }
+                textStyle={{
+                  fontSize: 9,
+                }}
+                tooltipStyle={{
+                  padding: Spacing.md,
+                }}
+              />
+            </View>
+            <PixelInput
+              value={wetFoodCalories}
+              onChangeText={setWetFoodCalories}
+              placeholder="80"
+              keyboardType="decimal-pad"
+              unit="kcal/pouch"
+            />
+          </View>
         ) : null}
 
         {foodType === "dry" || foodType === "both" ? (
-          <PixelInput
-            label="DRY FOOD CALORIES"
-            value={dryFoodCaloriesPerKg}
-            onChangeText={setDryFoodCaloriesPerKg}
-            placeholder="3500"
-            keyboardType="decimal-pad"
-            unit="kcal/kg"
-          />
+          <View>
+            <View style={styles.labelWithTooltip}>
+              <ThemedText type="body">DRY FOOD CALORIES</ThemedText>
+              <PixelTooltip
+                content={
+                  "Where to find:\n\nCheck the 'Calorie Content' or 'Guaranteed Analysis' section on your cat food packaging. Most brands list this value as kcal/kg."
+                }
+                textStyle={{
+                  fontSize: 9,
+                }}
+                tooltipStyle={{
+                  padding: Spacing.md,
+                }}
+              />
+            </View>
+            <PixelInput
+              value={dryFoodCaloriesPerKg}
+              onChangeText={setDryFoodCaloriesPerKg}
+              placeholder="3500"
+              keyboardType="decimal-pad"
+              unit="kcal/kg"
+            />
+          </View>
         ) : null}
 
-        <PixelInput
-          label="TREAT CALORIES"
-          value={treatCalories}
-          onChangeText={setTreatCalories}
-          placeholder="0"
-          keyboardType="decimal-pad"
-          unit="kcal"
-        />
+        <View>
+          <View style={styles.labelWithTooltip}>
+            <ThemedText type="body">TREAT CALORIES</ThemedText>
+            <PixelTooltip
+              content={
+                "Enter the combined calories of all daily treats.\n\nMost treat packages list calories per piece — just multiply by the number of treats per day.\n(Example: 2 kcal/piece \u00d7 5 pieces = 10 kcal)"
+              }
+              textStyle={{ fontSize: 9 }}
+              tooltipStyle={{ padding: Spacing.md }}
+            />
+          </View>
+          <PixelInput
+            value={treatCalories}
+            onChangeText={setTreatCalories}
+            placeholder="0"
+            keyboardType="decimal-pad"
+            unit="kcal"
+          />
+        </View>
       </View>
 
       <View style={styles.resultSection}>
@@ -308,6 +350,12 @@ const styles = StyleSheet.create({
   },
   form: {
     marginBottom: Spacing.lg,
+  },
+  labelWithTooltip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.sm,
+    marginBottom: Spacing.sm,
   },
   resultSection: {
     marginBottom: Spacing.xl,

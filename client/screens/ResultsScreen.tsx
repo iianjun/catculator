@@ -7,6 +7,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ThemedText } from "@/components/ThemedText";
 import { PixelButton } from "@/components/PixelButton";
 import { PixelCard } from "@/components/PixelCard";
+import { PixelTooltip } from "@/components/PixelTooltip";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing } from "@/constants/theme";
 import { CAT_STATUS_OPTIONS } from "@/lib/calculator";
@@ -86,7 +87,11 @@ export default function ResultsScreen() {
         </ThemedText>
       </View>
 
-      <PixelCard title="RER" style={styles.card}>
+      <PixelCard style={styles.card}>
+        <View style={styles.titleRow}>
+          <ThemedText type="h4">RER</ThemedText>
+          <PixelTooltip content="The number of calories a cat needs to maintain basic body functions (like breathing and digestion) while at total rest in a controlled temperature." />
+        </View>
         <ThemedText type="h1" style={styles.calorieValue}>
           {rer}
         </ThemedText>
@@ -98,7 +103,11 @@ export default function ResultsScreen() {
         </ThemedText>
       </PixelCard>
 
-      <PixelCard title="DER" style={styles.card}>
+      <PixelCard style={styles.card}>
+        <View style={styles.titleRow}>
+          <ThemedText type="h4">DER</ThemedText>
+          <PixelTooltip content="The total number of calories a cat needs per day based on their RER plus their specific lifestyle factors (life stage, activity level, and neuter status)." />
+        </View>
         <ThemedText type="h1" style={styles.calorieValue}>
           {der}
         </ThemedText>
@@ -170,6 +179,12 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: Spacing.lg,
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.sm,
+    marginBottom: Spacing.md,
   },
   calorieValue: {
     textAlign: "center",
