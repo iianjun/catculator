@@ -127,11 +127,7 @@ export function PixelButton({
         </ThemedText>
       </AnimatedPressable>
       <Animated.View
-        style={[
-          styles.shadow,
-          { backgroundColor: theme.border },
-          shadowStyle,
-        ]}
+        style={[styles.shadow, { backgroundColor: theme.border }, shadowStyle]}
       />
     </Pressable>
   );

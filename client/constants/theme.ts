@@ -5,12 +5,12 @@ import { Platform } from "react-native";
 
 // Light mode pastel accents (based on cat colors)
 const catPalette = {
-  cream: "#F5EBE0",        // Cat's cream body
-  taupe: "#8B7355",        // Cat's brown fur
-  taupeLight: "#A89078",   // Lighter brown
-  dustyPink: "#D4A5A5",    // Cat's pink ears/nose
-  blush: "#E8C4C4",        // Softer pink
-  charcoal: "#3A3535",     // Cat's dark outline
+  cream: "#F5EBE0", // Cat's cream body
+  taupe: "#8B7355", // Cat's brown fur
+  taupeLight: "#A89078", // Lighter brown
+  dustyPink: "#D4A5A5", // Cat's pink ears/nose
+  blush: "#E8C4C4", // Softer pink
+  charcoal: "#3A3535", // Cat's dark outline
 };
 
 // Muted versions for dark mode
@@ -29,29 +29,29 @@ export const Colors = {
     text: "#4A4545",
     textSecondary: "#7A7575",
     buttonText: "#FFFFFF",
-    
+
     // Backgrounds - WHITE based
     backgroundRoot: "#FFFFFF",
     backgroundDefault: "#FAF8F6",
     backgroundSecondary: "#F5F0EC",
     backgroundTertiary: "#EDE6E0",
-    
+
     // Primary accent - warm taupe/brown from cat fur
     primary: catPalette.taupe,
     primaryLight: catPalette.taupeLight,
     primaryLighter: catPalette.cream,
-    
+
     // UI elements
     border: catPalette.taupe,
     tabIconDefault: "#AAAAAA",
     tabIconSelected: catPalette.taupe,
     link: catPalette.dustyPink,
-    
+
     // Status colors (no green - using warm tones)
     success: catPalette.taupeLight,
     warning: catPalette.dustyPink,
     error: "#C47878",
-    
+
     // Accent palette
     accent: catPalette.dustyPink,
     ...catPalette,
@@ -61,29 +61,29 @@ export const Colors = {
     text: "#E8E4E0",
     textSecondary: "#A8A4A0",
     buttonText: "#1A1818",
-    
+
     // Backgrounds - GRAY based (warm gray)
     backgroundRoot: "#1A1818",
     backgroundDefault: "#2A2828",
     backgroundSecondary: "#3A3838",
     backgroundTertiary: "#4A4848",
-    
+
     // Primary accent - muted taupe/brown
     primary: catPaletteMuted.taupeLight,
     primaryLight: catPaletteMuted.taupe,
     primaryLighter: catPaletteMuted.cream,
-    
+
     // UI elements
     border: catPaletteMuted.taupeLight,
     tabIconDefault: "#6A6868",
     tabIconSelected: catPaletteMuted.taupeLight,
     link: catPaletteMuted.dustyPink,
-    
+
     // Status colors
     success: catPaletteMuted.taupeLight,
     warning: catPaletteMuted.dustyPink,
     error: "#A45858",
-    
+
     // Accent palette
     accent: catPaletteMuted.dustyPink,
     ...catPaletteMuted,

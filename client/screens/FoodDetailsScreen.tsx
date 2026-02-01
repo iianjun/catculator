@@ -17,7 +17,10 @@ import { FoodType, calculateFoodPortions } from "@/lib/calculator";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 
 type FoodDetailsRouteProp = RouteProp<RootStackParamList, "FoodDetails">;
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, "FoodDetails">;
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "FoodDetails"
+>;
 
 const FOOD_TYPE_OPTIONS = [
   { value: "wet", label: "Wet Only" },
@@ -155,9 +158,13 @@ export default function FoodDetailsScreen() {
               Wet food: {wetCal} kcal
             </ThemedText>
             <ThemedText type="body" style={styles.breakdownText}>
-              Dry food: {Math.round(calculation.dryFoodGrams * (dryCal / 1000))} kcal
+              Dry food: {Math.round(calculation.dryFoodGrams * (dryCal / 1000))}{" "}
+              kcal
             </ThemedText>
-            <ThemedText type="body" style={[styles.breakdownText, styles.totalText]}>
+            <ThemedText
+              type="body"
+              style={[styles.breakdownText, styles.totalText]}
+            >
               Total: {der} kcal
             </ThemedText>
           </PixelCard>

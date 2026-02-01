@@ -96,10 +96,7 @@ export function PixelInput({
             ) : null}
           </View>
           <View
-            style={[
-              styles.inputShadow,
-              { backgroundColor: theme.border },
-            ]}
+            style={[styles.inputShadow, { backgroundColor: theme.border }]}
           />
         </View>
         {showStepper ? (

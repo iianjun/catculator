@@ -56,7 +56,7 @@ export const CAT_STATUS_OPTIONS: CatStatusOption[] = [
 
 export function calculateRER(weightKg: number): number {
   if (weightKg <= 0) return 0;
-  
+
   if (weightKg < 2) {
     // Exponential formula for cats under 2kg
     return 70 * Math.pow(weightKg, 0.75);
@@ -89,7 +89,7 @@ export function calculateFoodPortions(
   derCalories: number,
   foodType: FoodType,
   wetFoodCalories: number, // Total kcal in wet food
-  dryFoodCaloriesPerKg: number // kcal per kg of dry food
+  dryFoodCaloriesPerKg: number, // kcal per kg of dry food
 ): FoodCalculation {
   let remainingCalories = derCalories;
   let wetFoodGrams = 0;
@@ -98,7 +98,8 @@ export function calculateFoodPortions(
   if (foodType === "wet") {
     // All calories from wet food (assuming standard 85g pouch)
     // User provides total wet food calories, we calculate how many pouches
-    wetFoodGrams = wetFoodCalories > 0 ? (derCalories / wetFoodCalories) * 85 : 0;
+    wetFoodGrams =
+      wetFoodCalories > 0 ? (derCalories / wetFoodCalories) * 85 : 0;
     remainingCalories = 0;
   } else if (foodType === "dry") {
     // All calories from dry food
@@ -111,7 +112,7 @@ export function calculateFoodPortions(
     // Subtract wet food calories first, then calculate dry food
     remainingCalories = Math.max(0, derCalories - wetFoodCalories);
     wetFoodGrams = 85; // Assume one standard pouch
-    
+
     if (dryFoodCaloriesPerKg > 0 && remainingCalories > 0) {
       dryFoodGrams = (remainingCalories / dryFoodCaloriesPerKg) * 1000;
     }

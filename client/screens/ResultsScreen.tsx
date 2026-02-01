@@ -24,7 +24,9 @@ export default function ResultsScreen() {
   const route = useRoute<ResultsRouteProp>();
 
   const { weight, catStatus, rer, der, multiplier } = route.params;
-  const statusLabel = CAT_STATUS_OPTIONS.find((opt) => opt.value === catStatus)?.label;
+  const statusLabel = CAT_STATUS_OPTIONS.find(
+    (opt) => opt.value === catStatus,
+  )?.label;
   const isInactive = catStatus === "inactive";
 
   const handleFoodBreakdown = () => {
@@ -107,7 +109,8 @@ export default function ResultsScreen() {
       {isInactive ? (
         <PixelCard style={[styles.card, styles.warningCard]}>
           <ThemedText type="body" style={styles.warningText}>
-            Your cat may be overweight. Consider consulting a vet for a weight management plan.
+            Your cat may be overweight. Consider consulting a vet for a weight
+            management plan.
           </ThemedText>
         </PixelCard>
       ) : null}

@@ -33,12 +33,7 @@ export function PixelCard({ title, children, style }: PixelCardProps) {
         ) : null}
         {children}
       </View>
-      <View
-        style={[
-          styles.shadow,
-          { backgroundColor: theme.border },
-        ]}
-      />
+      <View style={[styles.shadow, { backgroundColor: theme.border }]} />
     </View>
   );
 }

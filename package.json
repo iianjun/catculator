@@ -74,5 +74,8 @@
     "prettier": "3.6.2",
     "typescript": "~5.9.2"
   },
+  "overrides": {
+    "tar": "^7.5.7"
+  },
   "private": true
 }

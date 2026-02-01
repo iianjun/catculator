@@ -64,9 +64,7 @@ export function PixelSelect({
                   style={[
                     styles.optionLabel,
                     {
-                      color: isSelected
-                        ? theme.buttonText
-                        : theme.text,
+                      color: isSelected ? theme.buttonText : theme.text,
                     },
                   ]}
                   numberOfLines={2}

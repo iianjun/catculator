@@ -29,9 +29,7 @@ export function PixelToggle({ label, value, onChange }: PixelToggleProps) {
         style={[
           styles.toggle,
           {
-            backgroundColor: value
-              ? theme.primary
-              : theme.backgroundDefault,
+            backgroundColor: value ? theme.primary : theme.backgroundDefault,
             borderColor: theme.border,
           },
         ]}
@@ -40,9 +38,7 @@ export function PixelToggle({ label, value, onChange }: PixelToggleProps) {
           style={[
             styles.toggleHandle,
             {
-              backgroundColor: value
-                ? theme.buttonText
-                : theme.text,
+              backgroundColor: value ? theme.buttonText : theme.text,
               left: value ? 28 : 4,
             },
           ]}

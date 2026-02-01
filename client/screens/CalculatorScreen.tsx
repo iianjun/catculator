@@ -21,7 +21,10 @@ import {
 } from "@/lib/calculator";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Calculator">;
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Calculator"
+>;
 
 export default function CalculatorScreen() {
   const insets = useSafeAreaInsets();
@@ -124,9 +127,15 @@ export default function CalculatorScreen() {
 
         <View style={styles.statusInfo}>
           <ThemedText type="small" style={styles.statusDescription}>
-            {CAT_STATUS_OPTIONS.find((opt) => opt.value === catStatus)?.description}
+            {
+              CAT_STATUS_OPTIONS.find((opt) => opt.value === catStatus)
+                ?.description
+            }
             {" (x"}
-            {CAT_STATUS_OPTIONS.find((opt) => opt.value === catStatus)?.multiplier}
+            {
+              CAT_STATUS_OPTIONS.find((opt) => opt.value === catStatus)
+                ?.multiplier
+            }
             {")"}
           </ThemedText>
         </View>
