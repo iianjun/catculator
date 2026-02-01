@@ -1,11 +1,5 @@
 import React, { useState, useMemo } from "react";
-import {
-  StyleSheet,
-  View,
-  Image,
-  ScrollView,
-  useWindowDimensions,
-} from "react-native";
+import { StyleSheet, View, Image, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -15,10 +9,12 @@ import { PixelButton } from "@/components/PixelButton";
 import { PixelCard } from "@/components/PixelCard";
 import { PixelInput } from "@/components/PixelInput";
 import { PixelSelect } from "@/components/PixelSelect";
+import { PixelModal } from "@/components/PixelModal";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing } from "@/constants/theme";
 import { FoodType, calculateFoodPortions } from "@/lib/calculator";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
+import { saveCatProfile, updateCatProfile, CatProfile } from "@/lib/storage";
 
 type FoodDetailsRouteProp = RouteProp<RootStackParamList, "FoodDetails">;
 type NavigationProp = NativeStackNavigationProp<
@@ -38,12 +34,32 @@ export default function FoodDetailsScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<FoodDetailsRouteProp>();
 
-  const { der } = route.params;
+  const {
+    der,
+    weight,
+    catStatus,
+    foodType: initialFoodType,
+    wetFoodCalories: initialWet,
+    dryFoodCaloriesPerKg: initialDry,
+    treatCalories: initialTreat,
+    profileId,
+    profileName,
+  } = route.params;
 
-  const [foodType, setFoodType] = useState<FoodType>("both");
-  const [wetFoodCalories, setWetFoodCalories] = useState("80");
-  const [dryFoodCaloriesPerKg, setDryFoodCaloriesPerKg] = useState("3500");
-  const [treatCalories, setTreatCalories] = useState("0");
+  const isEditMode = !!profileId;
+
+  const [foodType, setFoodType] = useState<FoodType>(initialFoodType ?? "both");
+  const [wetFoodCalories, setWetFoodCalories] = useState(
+    initialWet !== undefined ? String(initialWet) : "80",
+  );
+  const [dryFoodCaloriesPerKg, setDryFoodCaloriesPerKg] = useState(
+    initialDry !== undefined ? String(initialDry) : "3500",
+  );
+  const [treatCalories, setTreatCalories] = useState(
+    initialTreat !== undefined ? String(initialTreat) : "0",
+  );
+  const [saveModalVisible, setSaveModalVisible] = useState(false);
+  const [catName, setCatName] = useState(profileName ?? "");
 
   const wetCal = parseFloat(wetFoodCalories) || 0;
   const dryCal = parseFloat(dryFoodCaloriesPerKg) || 0;
@@ -54,7 +70,38 @@ export default function FoodDetailsScreen() {
   }, [der, foodType, wetCal, dryCal, treatCal]);
 
   const handleDone = () => {
-    navigation.popToTop();
+    navigation.reset({ index: 0, routes: [{ name: "Calculator" }] });
+  };
+
+  const handleSave = () => {
+    setSaveModalVisible(true);
+  };
+
+  const handleSaveConfirm = async () => {
+    const profile: CatProfile = {
+      id: isEditMode ? profileId : String(Date.now()),
+      name: catName.trim(),
+      weight,
+      catStatus,
+      foodType,
+      wetFoodCalories: parseFloat(wetFoodCalories) || 0,
+      dryFoodCaloriesPerKg: parseFloat(dryFoodCaloriesPerKg) || 0,
+      treatCalories: parseFloat(treatCalories) || 0,
+      savedAt: Date.now(),
+    };
+    if (isEditMode) {
+      await updateCatProfile(profileId, profile);
+    } else {
+      await saveCatProfile(profile);
+    }
+    setSaveModalVisible(false);
+    setCatName("");
+    navigation.reset({ index: 0, routes: [{ name: "Calculator" }] });
+  };
+
+  const handleSaveCancel = () => {
+    setSaveModalVisible(false);
+    setCatName("");
   };
 
   return (
@@ -212,10 +259,32 @@ export default function FoodDetailsScreen() {
       </View>
 
       <View style={styles.floatingButtonContainer}>
-        <PixelButton onPress={handleDone} size="large">
-          DONE
-        </PixelButton>
+        {!isEditMode && (
+          <PixelButton onPress={handleDone} size="large">
+            DONE
+          </PixelButton>
+        )}
+        <View style={styles.saveButtonSpacing}>
+          <PixelButton onPress={handleSave} size="large" variant="secondary">
+            {isEditMode ? "UPDATE" : "SAVE"}
+          </PixelButton>
+        </View>
       </View>
+
+      <PixelModal
+        visible={saveModalVisible}
+        title="NAME YOUR CAT"
+        onConfirm={handleSaveConfirm}
+        onCancel={handleSaveCancel}
+        confirmLabel={isEditMode ? "UPDATE" : "SAVE"}
+      >
+        <PixelInput
+          label="CAT NAME"
+          value={catName}
+          onChangeText={setCatName}
+          placeholder="Mochi"
+        />
+      </PixelModal>
     </ScrollView>
   );
 }
@@ -282,5 +351,8 @@ const styles = StyleSheet.create({
   },
   floatingButtonContainer: {
     marginTop: Spacing.lg,
+  },
+  saveButtonSpacing: {
+    marginTop: Spacing.md,
   },
 });

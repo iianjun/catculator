@@ -9,7 +9,7 @@ import { PixelButton } from "@/components/PixelButton";
 import { PixelCard } from "@/components/PixelCard";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing } from "@/constants/theme";
-import { CAT_STATUS_OPTIONS, CatStatus } from "@/lib/calculator";
+import { CAT_STATUS_OPTIONS } from "@/lib/calculator";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 
 type ResultsRouteProp = RouteProp<RootStackParamList, "Results">;
@@ -32,6 +32,24 @@ export default function ResultsScreen() {
       der,
       weight,
       catStatus,
+      ...(route.params.foodType !== undefined && {
+        foodType: route.params.foodType,
+      }),
+      ...(route.params.wetFoodCalories !== undefined && {
+        wetFoodCalories: route.params.wetFoodCalories,
+      }),
+      ...(route.params.dryFoodCaloriesPerKg !== undefined && {
+        dryFoodCaloriesPerKg: route.params.dryFoodCaloriesPerKg,
+      }),
+      ...(route.params.treatCalories !== undefined && {
+        treatCalories: route.params.treatCalories,
+      }),
+      ...(route.params.profileId !== undefined && {
+        profileId: route.params.profileId,
+      }),
+      ...(route.params.profileName !== undefined && {
+        profileName: route.params.profileName,
+      }),
     });
   };
 
@@ -60,7 +78,11 @@ export default function ResultsScreen() {
           resizeMode="contain"
         />
         <ThemedText type="h4" style={styles.successText}>
-          {isInactive ? "Let's work on this!" : "Great job!"}
+          {route.params.profileName
+            ? `${route.params.profileName}'s Results`
+            : isInactive
+              ? "Let's work on this!"
+              : "Great job!"}
         </ThemedText>
       </View>
 

@@ -30,7 +30,7 @@ export function PixelButton({
   variant = "primary",
   size = "medium",
 }: PixelButtonProps) {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const pressed = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => ({

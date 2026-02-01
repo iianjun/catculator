@@ -147,6 +147,14 @@ export default function CalculatorScreen() {
         >
           CALCULATE
         </PixelButton>
+        <View style={styles.buttonSpacer} />
+        <PixelButton
+          onPress={() => navigation.navigate("SavedProfiles")}
+          variant="secondary"
+          size="medium"
+        >
+          MY CATS
+        </PixelButton>
       </View>
     </ScrollView>
   );
@@ -181,5 +189,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: Spacing.md,
+  },
+  buttonSpacer: {
+    height: Spacing.md,
   },
 });

@@ -27,7 +27,7 @@ export function PixelSelect({
   onChange,
   columns = 2,
 }: PixelSelectProps) {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
 
   const handleSelect = (optionValue: string) => {
     onChange(optionValue);

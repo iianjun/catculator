@@ -13,7 +13,7 @@ interface PixelToggleProps {
 }
 
 export function PixelToggle({ label, value, onChange }: PixelToggleProps) {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
 
   const handleToggle = () => {
     onChange(!value);
