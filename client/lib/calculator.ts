@@ -111,15 +111,23 @@ export function calculateFoodPortions(
     }
     remainingCalories = 0;
   } else if (foodType === "both") {
-    // Subtract wet food calories first, then treats, then calculate dry food
-    remainingCalories = Math.max(
-      0,
-      derCalories - wetFoodCalories - treatCalories,
-    );
-    wetFoodGrams = 85; // Assume one standard pouch
+    if (dryFoodCaloriesPerKg <= 0) {
+      // No dry food info — all calories from wet food
+      const effectiveDer = Math.max(0, derCalories - treatCalories);
+      wetFoodGrams =
+        wetFoodCalories > 0 ? (effectiveDer / wetFoodCalories) * 85 : 0;
+      remainingCalories = 0;
+    } else {
+      // Subtract wet food calories first, then treats, then calculate dry food
+      remainingCalories = Math.max(
+        0,
+        derCalories - wetFoodCalories - treatCalories,
+      );
+      wetFoodGrams = 85; // Assume one standard pouch
 
-    if (dryFoodCaloriesPerKg > 0 && remainingCalories > 0) {
-      dryFoodGrams = (remainingCalories / dryFoodCaloriesPerKg) * 1000;
+      if (remainingCalories > 0) {
+        dryFoodGrams = (remainingCalories / dryFoodCaloriesPerKg) * 1000;
+      }
     }
   }
 

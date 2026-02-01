@@ -62,7 +62,7 @@ export default function FoodDetailsScreen() {
       style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       contentContainerStyle={{
         paddingTop: Spacing.xl,
-        paddingBottom: insets.bottom + Spacing["3xl"] + 80,
+        paddingBottom: insets.bottom + Spacing.xl,
         paddingHorizontal: Spacing.lg,
       }}
       showsVerticalScrollIndicator={false}
@@ -138,19 +138,20 @@ export default function FoodDetailsScreen() {
                 Wet Food
               </ThemedText>
               <ThemedText type="h3" style={styles.foodValue}>
-                {foodType === "both"
+                {foodType === "both" && dryCal > 0
                   ? "1 pouch"
                   : `${calculation.wetFoodGrams}g`}
               </ThemedText>
-              {foodType === "wet" ? (
+              {foodType === "wet" || (foodType === "both" && dryCal <= 0) ? (
                 <ThemedText type="small" style={styles.foodSubtext}>
-                  ({Math.ceil(calculation.wetFoodGrams / 85)} pouches)
+                  ({Math.round((calculation.wetFoodGrams / 85) * 10) / 10}{" "}
+                  pouches)
                 </ThemedText>
               ) : null}
             </PixelCard>
           ) : null}
 
-          {foodType === "dry" || foodType === "both" ? (
+          {foodType === "dry" || (foodType === "both" && dryCal > 0) ? (
             <PixelCard style={styles.resultCard}>
               <Image
                 source={require("../../assets/images/food-bowl.webp")}
