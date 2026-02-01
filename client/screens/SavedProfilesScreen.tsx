@@ -74,6 +74,7 @@ export default function SavedProfilesScreen() {
       wetFoodCalories: profile.wetFoodCalories,
       dryFoodCaloriesPerKg: profile.dryFoodCaloriesPerKg,
       treatCalories: profile.treatCalories,
+      pouches: profile.pouches,
       profileId: profile.id,
       profileName: profile.name,
     });
@@ -93,6 +94,7 @@ export default function SavedProfilesScreen() {
       item.wetFoodCalories,
       item.dryFoodCaloriesPerKg,
       item.treatCalories,
+      item.pouches ?? 1,
     );
 
     return (

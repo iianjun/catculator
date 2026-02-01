@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from "react";
-import { StyleSheet, View, Image, ScrollView } from "react-native";
+import { StyleSheet, View, Image, ScrollView, Pressable } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -12,7 +14,7 @@ import { PixelSelect } from "@/components/PixelSelect";
 import { PixelModal } from "@/components/PixelModal";
 import { PixelTooltip } from "@/components/PixelTooltip";
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing } from "@/constants/theme";
+import { Spacing, PixelShadow } from "@/constants/theme";
 import { FoodType, calculateFoodPortions } from "@/lib/calculator";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { saveCatProfile, updateCatProfile, CatProfile } from "@/lib/storage";
@@ -43,6 +45,7 @@ export default function FoodDetailsScreen() {
     wetFoodCalories: initialWet,
     dryFoodCaloriesPerKg: initialDry,
     treatCalories: initialTreat,
+    pouches: initialPouches,
     profileId,
     profileName,
   } = route.params;
@@ -59,6 +62,7 @@ export default function FoodDetailsScreen() {
   const [treatCalories, setTreatCalories] = useState(
     initialTreat !== undefined ? String(initialTreat) : "0",
   );
+  const [pouches, setPouches] = useState(initialPouches ?? 1);
   const [saveModalVisible, setSaveModalVisible] = useState(false);
   const [catName, setCatName] = useState(profileName ?? "");
 
@@ -67,8 +71,15 @@ export default function FoodDetailsScreen() {
   const treatCal = parseFloat(treatCalories) || 0;
 
   const calculation = useMemo(() => {
-    return calculateFoodPortions(der, foodType, wetCal, dryCal, treatCal);
-  }, [der, foodType, wetCal, dryCal, treatCal]);
+    return calculateFoodPortions(
+      der,
+      foodType,
+      wetCal,
+      dryCal,
+      treatCal,
+      pouches,
+    );
+  }, [der, foodType, wetCal, dryCal, treatCal, pouches]);
 
   const handleDone = () => {
     navigation.reset({ index: 0, routes: [{ name: "Calculator" }] });
@@ -88,6 +99,7 @@ export default function FoodDetailsScreen() {
       wetFoodCalories: parseFloat(wetFoodCalories) || 0,
       dryFoodCaloriesPerKg: parseFloat(dryFoodCaloriesPerKg) || 0,
       treatCalories: parseFloat(treatCalories) || 0,
+      pouches,
       savedAt: Date.now(),
     };
     if (isEditMode) {
@@ -136,26 +148,93 @@ export default function FoodDetailsScreen() {
         {foodType === "wet" || foodType === "both" ? (
           <View>
             <View style={styles.labelWithTooltip}>
-              <ThemedText type="body">DRY FOOD CALORIES</ThemedText>
+              <ThemedText type="body">WET FOOD CALORIES</ThemedText>
               <PixelTooltip
                 content={
                   "Where to find:\n\nCheck the label for calories listed per container, such as 'kcal/can' or 'kcal/pouch' (e.g., 169 kcal ME/can)."
                 }
-                textStyle={{
-                  fontSize: 9,
-                }}
-                tooltipStyle={{
-                  padding: Spacing.md,
-                }}
+                textStyle={{ fontSize: 9 }}
+                tooltipStyle={{ padding: Spacing.md }}
               />
             </View>
-            <PixelInput
-              value={wetFoodCalories}
-              onChangeText={setWetFoodCalories}
-              placeholder="80"
-              keyboardType="decimal-pad"
-              unit="kcal/pouch"
-            />
+            <View style={styles.wetInputRow}>
+              <View style={styles.wetInputFlex}>
+                <PixelInput
+                  value={wetFoodCalories}
+                  onChangeText={setWetFoodCalories}
+                  placeholder="80"
+                  keyboardType="decimal-pad"
+                  unit="kcal/pouch"
+                />
+              </View>
+              {foodType === "both" ? (
+                <View style={styles.pouchStepperWrapper}>
+                  <View style={styles.pouchStepper}>
+                    <View
+                      style={[
+                        styles.pouchCount,
+                        {
+                          borderColor: theme.border,
+                          backgroundColor: theme.backgroundDefault,
+                        },
+                      ]}
+                    >
+                      <ThemedText type="body">{pouches}</ThemedText>
+                    </View>
+                    <View style={styles.stepButtons}>
+                      <Pressable
+                        onPress={() => {
+                          setPouches((p) => p + 1);
+                          Haptics.impactAsync(
+                            Haptics.ImpactFeedbackStyle.Light,
+                          );
+                        }}
+                        style={[
+                          styles.stepBtn,
+                          {
+                            backgroundColor: theme.primary,
+                            borderColor: theme.border,
+                          },
+                        ]}
+                      >
+                        <Feather
+                          name="plus"
+                          size={16}
+                          color={theme.buttonText}
+                        />
+                      </Pressable>
+                      <Pressable
+                        onPress={() => {
+                          setPouches((p) => Math.max(1, p - 1));
+                          Haptics.impactAsync(
+                            Haptics.ImpactFeedbackStyle.Light,
+                          );
+                        }}
+                        style={[
+                          styles.stepBtn,
+                          {
+                            backgroundColor: theme.primary,
+                            borderColor: theme.border,
+                          },
+                        ]}
+                      >
+                        <Feather
+                          name="minus"
+                          size={16}
+                          color={theme.buttonText}
+                        />
+                      </Pressable>
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      styles.pouchStepperShadow,
+                      { backgroundColor: theme.border },
+                    ]}
+                  />
+                </View>
+              ) : null}
+            </View>
           </View>
         ) : null}
 
@@ -228,7 +307,7 @@ export default function FoodDetailsScreen() {
               </ThemedText>
               <ThemedText type="h3" style={styles.foodValue}>
                 {foodType === "both" && dryCal > 0
-                  ? "1 pouch"
+                  ? `${pouches} pouch${pouches > 1 ? "es" : ""}`
                   : `${calculation.wetFoodGrams}g`}
               </ThemedText>
               {foodType === "wet" || (foodType === "both" && dryCal <= 0) ? (
@@ -279,7 +358,7 @@ export default function FoodDetailsScreen() {
         {foodType === "both" && wetCal > 0 ? (
           <PixelCard style={styles.breakdownCard}>
             <ThemedText type="body" style={styles.breakdownText}>
-              Wet food: {wetCal} kcal
+              Wet food: {wetCal * pouches} kcal ({pouches} x {wetCal})
             </ThemedText>
             <ThemedText type="body" style={styles.breakdownText}>
               Dry food: {Math.round(calculation.dryFoodGrams * (dryCal / 1000))}{" "}
@@ -356,6 +435,47 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: Spacing.sm,
     marginBottom: Spacing.sm,
+  },
+  wetInputRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: Spacing.sm,
+  },
+  wetInputFlex: {
+    flex: 1,
+  },
+  pouchStepperWrapper: {
+    position: "relative",
+  },
+  pouchStepper: {
+    flexDirection: "row",
+    height: Spacing.inputHeight,
+    zIndex: 1,
+  },
+  pouchStepperShadow: {
+    position: "absolute",
+    bottom: -PixelShadow.offset,
+    left: PixelShadow.offset,
+    right: -PixelShadow.offset,
+    top: PixelShadow.offset,
+    zIndex: 0,
+  },
+  pouchCount: {
+    width: 40,
+    height: Spacing.inputHeight,
+    borderWidth: Spacing.pixelBorder,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  stepButtons: {
+    height: Spacing.inputHeight,
+  },
+  stepBtn: {
+    flex: 1,
+    width: 32,
+    borderWidth: Spacing.pixelBorder,
+    alignItems: "center",
+    justifyContent: "center",
   },
   resultSection: {
     marginBottom: Spacing.xl,

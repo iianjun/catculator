@@ -10,6 +10,7 @@ export interface CatProfile {
   wetFoodCalories: number;
   dryFoodCaloriesPerKg: number;
   treatCalories: number;
+  pouches: number;
   savedAt: number;
 }
 

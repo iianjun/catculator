@@ -22,6 +22,7 @@ export type RootStackParamList = {
     wetFoodCalories?: number;
     dryFoodCaloriesPerKg?: number;
     treatCalories?: number;
+    pouches?: number;
     profileId?: string;
     profileName?: string;
   };
@@ -33,6 +34,7 @@ export type RootStackParamList = {
     wetFoodCalories?: number;
     dryFoodCaloriesPerKg?: number;
     treatCalories?: number;
+    pouches?: number;
     profileId?: string;
     profileName?: string;
   };

@@ -45,6 +45,9 @@ export default function ResultsScreen() {
       ...(route.params.treatCalories !== undefined && {
         treatCalories: route.params.treatCalories,
       }),
+      ...(route.params.pouches !== undefined && {
+        pouches: route.params.pouches,
+      }),
       ...(route.params.profileId !== undefined && {
         profileId: route.params.profileId,
       }),
