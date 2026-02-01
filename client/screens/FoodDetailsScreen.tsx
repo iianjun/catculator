@@ -322,8 +322,8 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.sm,
   },
   resultCard: {
-    height: "100%",
     alignItems: "center",
+    flex: 1,
   },
   foodIcon: {
     width: 48,
