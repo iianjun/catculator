@@ -1,4 +1,3 @@
-import { Platform } from "react-native";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 
@@ -16,6 +15,7 @@ export function useScreenOptions({
   return {
     headerTitleAlign: "center",
     headerTransparent: transparent,
+    headerBackButtonDisplayMode: "minimal",
     headerBlurEffect: isDark ? "dark" : "light",
     headerTintColor: theme.text,
     headerTitleStyle: {

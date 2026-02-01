@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { StyleSheet, View, Image, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -10,7 +9,6 @@ import { PixelButton } from "@/components/PixelButton";
 import { PixelCard } from "@/components/PixelCard";
 import { PixelInput } from "@/components/PixelInput";
 import { PixelSelect } from "@/components/PixelSelect";
-import { PixelToggle } from "@/components/PixelToggle";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing } from "@/constants/theme";
 import { FoodType, calculateFoodPortions } from "@/lib/calculator";
@@ -30,12 +28,11 @@ const FOOD_TYPE_OPTIONS = [
 
 export default function FoodDetailsScreen() {
   const insets = useSafeAreaInsets();
-  const headerHeight = useHeaderHeight();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<FoodDetailsRouteProp>();
 
-  const { der, weight, catStatus } = route.params;
+  const { der } = route.params;
 
   const [foodType, setFoodType] = useState<FoodType>("both");
   const [wetFoodCalories, setWetFoodCalories] = useState("80");
@@ -56,7 +53,7 @@ export default function FoodDetailsScreen() {
     <ScrollView
       style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       contentContainerStyle={{
-        paddingTop: headerHeight + Spacing.xl,
+        paddingTop: Spacing.xl,
         paddingBottom: insets.bottom + Spacing["3xl"] + 80,
         paddingHorizontal: Spacing.lg,
       }}
@@ -112,7 +109,7 @@ export default function FoodDetailsScreen() {
           {foodType === "wet" || foodType === "both" ? (
             <PixelCard style={styles.resultCard}>
               <Image
-                source={require("../../assets/images/food-bowl.png")}
+                source={require("../../assets/images/web-food-bowl.webp")}
                 style={styles.foodIcon}
                 resizeMode="contain"
               />
@@ -135,7 +132,7 @@ export default function FoodDetailsScreen() {
           {foodType === "dry" || foodType === "both" ? (
             <PixelCard style={styles.resultCard}>
               <Image
-                source={require("../../assets/images/food-bowl.png")}
+                source={require("../../assets/images/food-bowl.webp")}
                 style={styles.foodIcon}
                 resizeMode="contain"
               />

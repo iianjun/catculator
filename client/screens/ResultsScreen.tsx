@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Image, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -18,7 +17,6 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Results">;
 
 export default function ResultsScreen() {
   const insets = useSafeAreaInsets();
-  const headerHeight = useHeaderHeight();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<ResultsRouteProp>();
@@ -45,7 +43,7 @@ export default function ResultsScreen() {
     <ScrollView
       style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       contentContainerStyle={{
-        paddingTop: headerHeight + Spacing.xl,
+        paddingTop: Spacing.xl,
         paddingBottom: insets.bottom + Spacing.xl,
         paddingHorizontal: Spacing.lg,
       }}
@@ -55,8 +53,8 @@ export default function ResultsScreen() {
         <Image
           source={
             isInactive
-              ? require("../../assets/images/cat-worried.png")
-              : require("../../assets/images/cat-happy.png")
+              ? require("../../assets/images/cat-worried.webp")
+              : require("../../assets/images/cat-happy.webp")
           }
           style={styles.catImage}
           resizeMode="contain"
@@ -107,7 +105,7 @@ export default function ResultsScreen() {
       </PixelCard>
 
       {isInactive ? (
-        <PixelCard style={[styles.card, styles.warningCard]}>
+        <PixelCard style={styles.card}>
           <ThemedText type="body" style={styles.warningText}>
             Your cat may be overweight. Consider consulting a vet for a weight
             management plan.

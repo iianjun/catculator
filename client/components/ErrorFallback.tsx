@@ -61,7 +61,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
 
       <View style={styles.content}>
         <Image
-          source={require("../../assets/images/cat-worried.png")}
+          source={require("../../assets/images/cat-worried.webp")}
           style={styles.catImage}
           resizeMode="contain"
         />

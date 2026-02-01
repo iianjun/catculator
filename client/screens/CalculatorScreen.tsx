@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Image, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -28,7 +27,6 @@ type NavigationProp = NativeStackNavigationProp<
 
 export default function CalculatorScreen() {
   const insets = useSafeAreaInsets();
-  const headerHeight = useHeaderHeight();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
 
@@ -56,12 +54,12 @@ export default function CalculatorScreen() {
 
   const getCatImage = () => {
     if (!hasValidWeight) {
-      return require("../../assets/images/cat-neutral.png");
+      return require("../../assets/images/cat-neutral.webp");
     }
     if (catStatus === "inactive") {
-      return require("../../assets/images/cat-worried.png");
+      return require("../../assets/images/cat-worried.webp");
     }
-    return require("../../assets/images/cat-happy.png");
+    return require("../../assets/images/cat-happy.webp");
   };
 
   const getCatMessage = () => {
@@ -81,7 +79,7 @@ export default function CalculatorScreen() {
     <ScrollView
       style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       contentContainerStyle={{
-        paddingTop: headerHeight + Spacing.xl,
+        paddingTop: Spacing.xl,
         paddingBottom: insets.bottom + Spacing.xl,
         paddingHorizontal: Spacing.lg,
       }}
