@@ -9,13 +9,19 @@ interface PixelCardProps {
   title?: string;
   children?: React.ReactNode;
   style?: ViewStyle;
+  wrapperStyle?: ViewStyle;
 }
 
-export function PixelCard({ title, children, style }: PixelCardProps) {
+export function PixelCard({
+  title,
+  children,
+  style,
+  wrapperStyle,
+}: PixelCardProps) {
   const { theme } = useTheme();
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, wrapperStyle]}>
       <View
         style={[
           styles.card,

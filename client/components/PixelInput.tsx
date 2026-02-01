@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
+    minWidth: 0,
     fontSize: 12,
     height: "100%",
   },

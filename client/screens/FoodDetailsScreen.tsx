@@ -62,7 +62,7 @@ export default function FoodDetailsScreen() {
       }}
       showsVerticalScrollIndicator={false}
     >
-      <PixelCard style={styles.infoCard}>
+      <PixelCard style={styles.infoCard} wrapperStyle={styles.infoWrapper}>
         <ThemedText type="body" style={styles.infoText}>
           Daily calories needed:
         </ThemedText>
@@ -183,6 +183,9 @@ export default function FoodDetailsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  infoWrapper: {
+    marginBottom: Spacing.lg,
   },
   infoCard: {
     marginBottom: Spacing.xl,
