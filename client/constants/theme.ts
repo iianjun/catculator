@@ -1,87 +1,92 @@
 import { Platform } from "react-native";
 
-// Pastel accent colors (no green)
-const pastelAccents = {
-  coral: "#E8A598",
-  peach: "#F5C4A1",
-  lavender: "#C4B4D4",
-  blush: "#E8B4B8",
-  cream: "#F5E6D3",
+// Colors extracted from the cat pixel art
+// Cream body, warm brown/taupe fur, dusty pink ears/nose, charcoal outlines
+
+// Light mode pastel accents (based on cat colors)
+const catPalette = {
+  cream: "#F5EBE0",        // Cat's cream body
+  taupe: "#8B7355",        // Cat's brown fur
+  taupeLight: "#A89078",   // Lighter brown
+  dustyPink: "#D4A5A5",    // Cat's pink ears/nose
+  blush: "#E8C4C4",        // Softer pink
+  charcoal: "#3A3535",     // Cat's dark outline
 };
 
-// Toned-down pastel accents for dark mode
-const mutedAccents = {
-  coral: "#C48878",
-  peach: "#D4A481",
-  lavender: "#A494B4",
-  blush: "#C89498",
-  cream: "#D4C6B3",
+// Muted versions for dark mode
+const catPaletteMuted = {
+  cream: "#C4BAB0",
+  taupe: "#6B5B4F",
+  taupeLight: "#887868",
+  dustyPink: "#B48888",
+  blush: "#C8A4A4",
+  charcoal: "#2A2525",
 };
 
 export const Colors = {
   light: {
     // Core colors
-    text: "#4A4A4A",
-    textSecondary: "#7A7A7A",
+    text: "#4A4545",
+    textSecondary: "#7A7575",
     buttonText: "#FFFFFF",
     
     // Backgrounds - WHITE based
     backgroundRoot: "#FFFFFF",
-    backgroundDefault: "#FAFAFA",
-    backgroundSecondary: "#F5F5F5",
-    backgroundTertiary: "#EFEFEF",
+    backgroundDefault: "#FAF8F6",
+    backgroundSecondary: "#F5F0EC",
+    backgroundTertiary: "#EDE6E0",
     
-    // Primary accent - coral/peach pastel
-    primary: "#E8A598",
-    primaryLight: "#F5C4A1",
-    primaryLighter: "#F5E6D3",
+    // Primary accent - warm taupe/brown from cat fur
+    primary: catPalette.taupe,
+    primaryLight: catPalette.taupeLight,
+    primaryLighter: catPalette.cream,
     
     // UI elements
-    border: "#D4A481",
+    border: catPalette.taupe,
     tabIconDefault: "#AAAAAA",
-    tabIconSelected: "#E8A598",
-    link: "#C4B4D4",
+    tabIconSelected: catPalette.taupe,
+    link: catPalette.dustyPink,
     
-    // Status colors
-    success: "#A8C4A8",
-    warning: "#F5C4A1",
-    error: "#E8A598",
+    // Status colors (no green - using warm tones)
+    success: catPalette.taupeLight,
+    warning: catPalette.dustyPink,
+    error: "#C47878",
     
     // Accent palette
-    accent: pastelAccents.lavender,
-    ...pastelAccents,
+    accent: catPalette.dustyPink,
+    ...catPalette,
   },
   dark: {
     // Core colors
-    text: "#E8E8E8",
-    textSecondary: "#A8A8A8",
-    buttonText: "#2A2A2A",
+    text: "#E8E4E0",
+    textSecondary: "#A8A4A0",
+    buttonText: "#1A1818",
     
-    // Backgrounds - GRAY based
-    backgroundRoot: "#1A1A1A",
-    backgroundDefault: "#2A2A2A",
-    backgroundSecondary: "#3A3A3A",
-    backgroundTertiary: "#4A4A4A",
+    // Backgrounds - GRAY based (warm gray)
+    backgroundRoot: "#1A1818",
+    backgroundDefault: "#2A2828",
+    backgroundSecondary: "#3A3838",
+    backgroundTertiary: "#4A4848",
     
-    // Primary accent - muted coral/peach
-    primary: "#C48878",
-    primaryLight: "#D4A481",
-    primaryLighter: "#D4C6B3",
+    // Primary accent - muted taupe/brown
+    primary: catPaletteMuted.taupeLight,
+    primaryLight: catPaletteMuted.taupe,
+    primaryLighter: catPaletteMuted.cream,
     
     // UI elements
-    border: "#A48468",
-    tabIconDefault: "#6A6A6A",
-    tabIconSelected: "#C48878",
-    link: "#A494B4",
+    border: catPaletteMuted.taupeLight,
+    tabIconDefault: "#6A6868",
+    tabIconSelected: catPaletteMuted.taupeLight,
+    link: catPaletteMuted.dustyPink,
     
     // Status colors
-    success: "#88A488",
-    warning: "#D4A481",
-    error: "#C48878",
+    success: catPaletteMuted.taupeLight,
+    warning: catPaletteMuted.dustyPink,
+    error: "#A45858",
     
     // Accent palette
-    accent: mutedAccents.lavender,
-    ...mutedAccents,
+    accent: catPaletteMuted.dustyPink,
+    ...catPaletteMuted,
   },
 };
 
