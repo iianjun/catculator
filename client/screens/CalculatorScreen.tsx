@@ -79,7 +79,7 @@ export default function CalculatorScreen() {
     <ScrollView
       style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       contentContainerStyle={{
-        paddingTop: Spacing.xl,
+        paddingTop: Spacing.md,
         paddingBottom: insets.bottom + Spacing.xl,
         paddingHorizontal: Spacing.lg,
       }}
@@ -169,8 +169,8 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.xl,
   },
   catImage: {
-    width: 120,
-    height: 120,
+    width: 200,
+    height: 200,
     marginBottom: Spacing.md,
   },
   speechText: {

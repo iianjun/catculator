@@ -76,7 +76,7 @@ export default function ResultsScreen() {
           source={
             isInactive
               ? require("../../assets/images/cat-worried.webp")
-              : require("../../assets/images/cat-happy.webp")
+              : require("../../assets/images/cat-happy-animated.gif")
           }
           style={styles.catImage}
           resizeMode="contain"
@@ -173,8 +173,8 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.xl,
   },
   catImage: {
-    width: 100,
-    height: 100,
+    width: 200,
+    height: 200,
     marginBottom: Spacing.sm,
   },
   successText: {

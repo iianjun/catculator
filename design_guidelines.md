@@ -163,22 +163,22 @@
 1. **icon.png** - App icon: Pixel art cat face in green color scheme, 1024x1024
    - WHERE USED: Device home screen
 
-2. **splash-icon.webp** - Pixel cat with calculator, 128x128
+2. **splash-icon.webp** - Pixel cat with calculator, 1024x1024
    - WHERE USED: App launch screen
 
-3. **cat-neutral.webp** - Neutral pixel cat (128x128)
+3. **cat-neutral.webp** - Neutral pixel cat (1024x1024)
    - WHERE USED: Home screen default state
 
-4. **cat-happy.webp** - Happy pixel cat (128x128)
+4. **cat-happy.webp** - Happy pixel cat (1024x1024)
    - WHERE USED: Results screen, successful calculation
 
-5. **cat-worried.webp** - Worried pixel cat (128x128)
+5. **cat-worried.webp** - Worried pixel cat (1024x1024)
    - WHERE USED: Obese-prone warning state
 
-6. **food-bowl.webp** - Pixel art cat food bowl (128x128)
+6. **food-bowl.webp** - Pixel art cat food bowl (1024x1024)
    - WHERE USED: Food Details screen, portion display
 
-7. **web-food-bowl.webp** - Pixel art cat web food bowl (128x128)
+7. **wet-food-bowl.webp** - Pixel art cat web food bowl (1024x1024)
    - WHERE USED: Web food breakdown display when includes web food
 
 **Asset Style**: All assets use 4-color Game Boy palette, chunky pixels visible, no anti-aliasing, transparent backgrounds.

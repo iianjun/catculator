@@ -81,6 +81,22 @@ export default function FoodDetailsScreen() {
     );
   }, [der, foodType, wetCal, dryCal, treatCal, pouches]);
 
+  const totalConsumed = useMemo(() => {
+    let total = treatCal;
+    if (foodType === "wet") {
+      total += wetCal > 0 ? (calculation.wetFoodGrams / 85) * wetCal : 0;
+    } else if (foodType === "dry") {
+      total += dryCal > 0 ? (calculation.dryFoodGrams / 1000) * dryCal : 0;
+    } else {
+      total += wetCal * pouches;
+      total += dryCal > 0 ? (calculation.dryFoodGrams / 1000) * dryCal : 0;
+    }
+    return Math.round(total);
+  }, [foodType, treatCal, wetCal, dryCal, pouches, calculation]);
+
+  const remaining = der - totalConsumed;
+  const isOverBudget = remaining < 0;
+
   const handleDone = () => {
     navigation.reset({ index: 0, routes: [{ name: "Calculator" }] });
   };
@@ -298,7 +314,7 @@ export default function FoodDetailsScreen() {
           {foodType === "wet" || foodType === "both" ? (
             <PixelCard style={styles.resultCard}>
               <Image
-                source={require("../../assets/images/web-food-bowl.webp")}
+                source={require("../../assets/images/wet-food-bowl.webp")}
                 style={styles.foodIcon}
                 resizeMode="contain"
               />
@@ -355,6 +371,22 @@ export default function FoodDetailsScreen() {
           ) : null}
         </ScrollView>
 
+        {isOverBudget ? (
+          <PixelCard style={styles.warningCard}>
+            <Image
+              source={require("../../assets/images/obesity-cat.webp")}
+              style={styles.warningImage}
+              resizeMode="contain"
+            />
+            <ThemedText
+              type="body"
+              style={[styles.warningText, { color: theme.error }]}
+            >
+              Meouch! Too many calories can lead to a cat-astrophic waistline.
+            </ThemedText>
+          </PixelCard>
+        ) : null}
+
         {foodType === "both" && wetCal > 0 ? (
           <PixelCard style={styles.breakdownCard}>
             <ThemedText type="body" style={styles.breakdownText}>
@@ -371,9 +403,14 @@ export default function FoodDetailsScreen() {
             ) : null}
             <ThemedText
               type="body"
-              style={[styles.breakdownText, styles.totalText]}
+              style={[
+                styles.breakdownText,
+                styles.totalText,
+                isOverBudget && { color: theme.error },
+              ]}
             >
-              Total: {der} kcal
+              Total: {totalConsumed} / {der} kcal
+              {isOverBudget ? ` (${remaining})` : ""}
             </ThemedText>
           </PixelCard>
         ) : null}
@@ -507,6 +544,19 @@ const styles = StyleSheet.create({
   foodSubtext: {
     marginTop: Spacing.xs,
     opacity: 0.7,
+  },
+  warningCard: {
+    paddingTop: 0,
+    marginTop: Spacing.md,
+    alignItems: "center",
+  },
+  warningImage: {
+    width: 256,
+    height: 256,
+    marginBottom: Spacing.sm,
+  },
+  warningText: {
+    textAlign: "center",
   },
   breakdownCard: {
     marginTop: Spacing.md,
