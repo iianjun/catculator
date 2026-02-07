@@ -12,7 +12,7 @@ export function HeaderTitle({ title }: HeaderTitleProps) {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../../assets/images/icon.webp")}
+        source={require("../../assets/images/face.webp")}
         style={styles.icon}
         resizeMode="contain"
       />

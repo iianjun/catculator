@@ -160,7 +160,7 @@
 
 ## Assets to Generate
 
-1. **icon.png** - App icon: Pixel art cat face in green color scheme, 1024x1024
+1. **icon.png** - App icon: Pixel cat with calculator, 1024x1024
    - WHERE USED: Device home screen
 
 2. **splash-icon.webp** - Pixel cat with calculator, 1024x1024
