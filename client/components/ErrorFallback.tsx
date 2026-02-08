@@ -15,6 +15,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { PixelButton } from "@/components/PixelButton";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, Fonts } from "@/constants/theme";
+import { useTranslation } from "@/i18n/useTranslation";
 
 export type ErrorFallbackProps = {
   error: Error;
@@ -23,6 +24,7 @@ export type ErrorFallbackProps = {
 
 export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleRestart = async () => {
@@ -67,16 +69,16 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
         />
 
         <ThemedText type="h2" style={styles.title}>
-          OOPS!
+          {t("error.oops")}
         </ThemedText>
 
         <ThemedText type="body" style={styles.message}>
-          Catculator had a little accident. The cat knocked something over!
+          {t("error.message")}
         </ThemedText>
 
         <View style={styles.buttonContainer}>
           <PixelButton onPress={handleRestart} size="large">
-            TRY AGAIN
+            {t("error.tryAgain")}
           </PixelButton>
         </View>
       </View>
@@ -92,7 +94,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
             <ThemedView style={styles.modalContainer}>
               <View style={styles.modalHeader}>
                 <ThemedText type="h4" style={styles.modalTitle}>
-                  ERROR LOG
+                  {t("error.errorLog")}
                 </ThemedText>
                 <Pressable
                   onPress={() => setIsModalVisible(false)}

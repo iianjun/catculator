@@ -19,6 +19,7 @@ import {
   getMultiplier,
 } from "@/lib/calculator";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
+import { useTranslation } from "@/i18n/useTranslation";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -29,6 +30,7 @@ export default function CalculatorScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
+  const { t } = useTranslation();
 
   const [weight, setWeight] = useState("");
   const [catStatus, setCatStatus] = useState<CatStatus>("neutered");
@@ -64,15 +66,15 @@ export default function CalculatorScreen() {
 
   const getCatMessage = () => {
     if (!weight) {
-      return "MEOW! Enter my weight!";
+      return t("calculator.speech.initial");
     }
     if (!hasValidWeight) {
-      return "Hmm... that weight seems off!";
+      return t("calculator.speech.invalidWeight");
     }
     if (catStatus === "inactive") {
-      return "Let's get healthy together!";
+      return t("calculator.speech.inactive");
     }
-    return "Looking good! Ready to calculate!";
+    return t("calculator.speech.ready");
   };
 
   return (
@@ -100,7 +102,7 @@ export default function CalculatorScreen() {
 
       <View style={styles.form}>
         <PixelInput
-          label="CAT WEIGHT"
+          label={t("calculator.catWeight")}
           value={weight}
           onChangeText={setWeight}
           placeholder="0.0"
@@ -113,10 +115,10 @@ export default function CalculatorScreen() {
         />
 
         <PixelSelect
-          label="CAT STATUS"
+          label={t("calculator.catStatus")}
           options={CAT_STATUS_OPTIONS.map((opt) => ({
             value: opt.value,
-            label: opt.label,
+            label: t(`catStatus.${opt.value}.label`),
           }))}
           value={catStatus}
           onChange={(val) => setCatStatus(val as CatStatus)}
@@ -125,10 +127,7 @@ export default function CalculatorScreen() {
 
         <View style={styles.statusInfo}>
           <ThemedText type="small" style={styles.statusDescription}>
-            {
-              CAT_STATUS_OPTIONS.find((opt) => opt.value === catStatus)
-                ?.description
-            }
+            {t(`catStatus.${catStatus}.description`)}
             {" (x"}
             {
               CAT_STATUS_OPTIONS.find((opt) => opt.value === catStatus)
@@ -145,7 +144,7 @@ export default function CalculatorScreen() {
           disabled={!hasValidWeight}
           size="large"
         >
-          CALCULATE
+          {t("calculator.calculate")}
         </PixelButton>
         <View style={styles.buttonSpacer} />
         <PixelButton
@@ -153,7 +152,7 @@ export default function CalculatorScreen() {
           variant="secondary"
           size="medium"
         >
-          MY CATS
+          {t("calculator.myCats")}
         </PixelButton>
       </View>
     </ScrollView>

@@ -10,8 +10,8 @@ import { PixelCard } from "@/components/PixelCard";
 import { PixelTooltip } from "@/components/PixelTooltip";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing } from "@/constants/theme";
-import { CAT_STATUS_OPTIONS } from "@/lib/calculator";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
+import { useTranslation } from "@/i18n/useTranslation";
 
 type ResultsRouteProp = RouteProp<RootStackParamList, "Results">;
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Results">;
@@ -21,11 +21,10 @@ export default function ResultsScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<ResultsRouteProp>();
+  const { t } = useTranslation();
 
   const { weight, catStatus, rer, der, multiplier } = route.params;
-  const statusLabel = CAT_STATUS_OPTIONS.find(
-    (opt) => opt.value === catStatus,
-  )?.label;
+  const statusLabel = t(`catStatus.${catStatus}.label`);
   const isInactive = catStatus === "inactive";
 
   const handleFoodBreakdown = () => {
@@ -83,42 +82,42 @@ export default function ResultsScreen() {
         />
         <ThemedText type="h4" style={styles.successText}>
           {route.params.profileName
-            ? `${route.params.profileName}'s Results`
+            ? t("results.profileResults", { name: route.params.profileName })
             : isInactive
-              ? "Let's work on this!"
-              : "Great job!"}
+              ? t("results.letsWork")
+              : t("results.greatJob")}
         </ThemedText>
       </View>
 
       <PixelCard style={styles.card}>
         <View style={styles.titleRow}>
-          <ThemedText type="h4">RER</ThemedText>
-          <PixelTooltip content="The number of calories a cat needs to maintain basic body functions (like breathing and digestion) while at total rest in a controlled temperature." />
+          <ThemedText type="h4">{t("results.rer")}</ThemedText>
+          <PixelTooltip content={t("results.rerTooltip")} />
         </View>
         <ThemedText type="h1" style={styles.calorieValue}>
           {rer}
         </ThemedText>
         <ThemedText type="small" style={styles.calorieUnit}>
-          kcal/day
+          {t("results.kcalDay")}
         </ThemedText>
         <ThemedText type="small" style={styles.description}>
-          Resting Energy Requirement
+          {t("results.restingEnergy")}
         </ThemedText>
       </PixelCard>
 
       <PixelCard style={styles.card}>
         <View style={styles.titleRow}>
-          <ThemedText type="h4">DER</ThemedText>
-          <PixelTooltip content="The total number of calories a cat needs per day based on their RER plus their specific lifestyle factors (life stage, activity level, and neuter status)." />
+          <ThemedText type="h4">{t("results.der")}</ThemedText>
+          <PixelTooltip content={t("results.derTooltip")} />
         </View>
         <ThemedText type="h1" style={styles.calorieValue}>
           {der}
         </ThemedText>
         <ThemedText type="small" style={styles.calorieUnit}>
-          kcal/day
+          {t("results.kcalDay")}
         </ThemedText>
         <ThemedText type="small" style={styles.description}>
-          Daily Energy Requirement
+          {t("results.dailyEnergy")}
         </ThemedText>
         <View style={styles.multiplierRow}>
           <ThemedText type="small">
@@ -129,11 +128,11 @@ export default function ResultsScreen() {
 
       <PixelCard style={styles.card}>
         <View style={styles.summaryRow}>
-          <ThemedText type="body">Weight:</ThemedText>
+          <ThemedText type="body">{t("results.weight")}</ThemedText>
           <ThemedText type="body">{weight} kg</ThemedText>
         </View>
         <View style={styles.summaryRow}>
-          <ThemedText type="body">Status:</ThemedText>
+          <ThemedText type="body">{t("results.status")}</ThemedText>
           <ThemedText type="body">{statusLabel}</ThemedText>
         </View>
       </PixelCard>
@@ -141,15 +140,14 @@ export default function ResultsScreen() {
       {isInactive ? (
         <PixelCard style={styles.card}>
           <ThemedText type="body" style={styles.warningText}>
-            Your cat may be overweight. Consider consulting a vet for a weight
-            management plan.
+            {t("results.overweightWarning")}
           </ThemedText>
         </PixelCard>
       ) : null}
 
       <View style={styles.buttonContainer}>
         <PixelButton onPress={handleFoodBreakdown} size="large">
-          FOOD BREAKDOWN
+          {t("results.foodBreakdown")}
         </PixelButton>
         <View style={styles.buttonSpacer} />
         <PixelButton
@@ -157,7 +155,7 @@ export default function ResultsScreen() {
           variant="secondary"
           size="medium"
         >
-          NEW CALCULATION
+          {t("results.newCalculation")}
         </PixelButton>
       </View>
     </ScrollView>

@@ -10,18 +10,19 @@ import {
   useFonts,
   PressStart2P_400Regular,
 } from "@expo-google-fonts/press-start-2p";
-
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query-client";
-
 import RootStackNavigator from "@/navigation/RootStackNavigator";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+
+const neodgmFont = require("../assets/fonts/neodgm.ttf");
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     PressStart2P_400Regular,
+    neodgm: neodgmFont,
   });
 
   useEffect(() => {

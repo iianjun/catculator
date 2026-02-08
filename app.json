@@ -8,10 +8,16 @@
     "scheme": "catculator",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "locales": {
+      "ko": "./client/i18n/native/ko.json"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.catculator.app",
-      "buildNumber": "1"
+      "buildNumber": "1",
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -40,7 +46,8 @@
           }
         }
       ],
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-localization"
     ],
     "experiments": {
       "reactCompiler": true

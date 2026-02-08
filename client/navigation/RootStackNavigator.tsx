@@ -8,6 +8,7 @@ import SavedProfilesScreen from "@/screens/SavedProfilesScreen";
 import { PixelHeader } from "@/components/PixelHeader";
 import { useScreenOptions } from "@/hooks/useScreenOptions";
 import { CatStatus, FoodType } from "@/lib/calculator";
+import { useTranslation } from "@/i18n/useTranslation";
 
 export type RootStackParamList = {
   Calculator: undefined;
@@ -44,6 +45,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   const screenOptions = useScreenOptions({ transparent: false });
+  const { t } = useTranslation();
 
   return (
     <Stack.Navigator screenOptions={screenOptions}>
@@ -51,28 +53,30 @@ export default function RootStackNavigator() {
         name="Calculator"
         component={CalculatorScreen}
         options={{
-          headerTitle: () => <PixelHeader title="CATCULATOR" />,
+          headerTitle: () => (
+            <PixelHeader title={t("nav.catculator")} showIcon />
+          ),
         }}
       />
       <Stack.Screen
         name="SavedProfiles"
         component={SavedProfilesScreen}
         options={{
-          headerTitle: "MY CATS",
+          headerTitle: () => <PixelHeader title={t("nav.myCats")} />,
         }}
       />
       <Stack.Screen
         name="Results"
         component={ResultsScreen}
         options={{
-          headerTitle: "RESULTS",
+          headerTitle: () => <PixelHeader title={t("nav.results")} />,
         }}
       />
       <Stack.Screen
         name="FoodDetails"
         component={FoodDetailsScreen}
         options={{
-          headerTitle: "FOOD SETUP",
+          headerTitle: () => <PixelHeader title={t("nav.foodSetup")} />,
         }}
       />
     </Stack.Navigator>

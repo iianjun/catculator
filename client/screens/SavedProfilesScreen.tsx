@@ -16,28 +16,29 @@ import {
   calculateDER,
   getMultiplier,
   calculateFoodPortions,
-  CAT_STATUS_OPTIONS,
 } from "@/lib/calculator";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
+import { useTranslation } from "@/i18n/useTranslation";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   "SavedProfiles"
 >;
 
-const FOOD_TYPE_LABELS: Record<string, string> = {
-  wet: "Wet Only",
-  dry: "Dry Only",
-  both: "Both",
-};
-
 export default function SavedProfilesScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
+  const { t, locale } = useTranslation();
   const [profiles, setProfiles] = useState<CatProfile[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<CatProfile | null>(null);
+
+  const foodTypeLabels: Record<string, string> = {
+    wet: t("food.wetOnly"),
+    dry: t("food.dryOnly"),
+    both: t("food.both"),
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -81,9 +82,7 @@ export default function SavedProfilesScreen() {
   };
 
   const renderItem = ({ item }: { item: CatProfile }) => {
-    const statusLabel = CAT_STATUS_OPTIONS.find(
-      (o) => o.value === item.catStatus,
-    )?.label;
+    const statusLabel = t(`catStatus.${item.catStatus}.label`);
     const isExpanded = expandedId === item.id;
 
     const rer = calculateRER(item.weight);
@@ -100,7 +99,9 @@ export default function SavedProfilesScreen() {
     return (
       <Pressable onPress={() => handleToggle(item.id)}>
         <PixelCard wrapperStyle={styles.cardWrapper}>
-          <ThemedText type="h4">{item.name || "Unnamed Cat"}</ThemedText>
+          <ThemedText type="h4">
+            {item.name || t("profiles.unnamedCat")}
+          </ThemedText>
           <ThemedText
             type="body"
             style={[styles.detailText, { color: theme.textSecondary }]}
@@ -120,40 +121,48 @@ export default function SavedProfilesScreen() {
               <View style={styles.row}>
                 <ThemedText type="body">RER:</ThemedText>
                 <ThemedText type="body">
-                  {Math.round(rer * 10) / 10} kcal
+                  {Math.round(rer * 10) / 10} {t("food.kcal")}
                 </ThemedText>
               </View>
               <View style={styles.row}>
                 <ThemedText type="body">DER:</ThemedText>
                 <ThemedText type="body">
-                  {Math.round(der * 10) / 10} kcal
+                  {Math.round(der * 10) / 10} {t("food.kcal")}
                 </ThemedText>
               </View>
               <View style={styles.row}>
-                <ThemedText type="body">Food Type:</ThemedText>
+                <ThemedText type="body">{t("profiles.foodType")}</ThemedText>
                 <ThemedText type="body">
-                  {FOOD_TYPE_LABELS[item.foodType]}
+                  {foodTypeLabels[item.foodType]}
                 </ThemedText>
               </View>
 
               {item.foodType === "wet" || item.foodType === "both" ? (
                 <View style={styles.row}>
-                  <ThemedText type="body">Wet Food:</ThemedText>
-                  <ThemedText type="body">{portions.wetFoodGrams}g</ThemedText>
+                  <ThemedText type="body">{t("profiles.wetFood")}</ThemedText>
+                  <ThemedText type="body">
+                    {portions.wetFoodGrams}
+                    {t("food.gram")}
+                  </ThemedText>
                 </View>
               ) : null}
 
               {item.foodType === "dry" || item.foodType === "both" ? (
                 <View style={styles.row}>
-                  <ThemedText type="body">Dry Food:</ThemedText>
-                  <ThemedText type="body">{portions.dryFoodGrams}g</ThemedText>
+                  <ThemedText type="body">{t("profiles.dryFood")}</ThemedText>
+                  <ThemedText type="body">
+                    {portions.dryFoodGrams}
+                    {t("food.gram")}
+                  </ThemedText>
                 </View>
               ) : null}
 
               {item.treatCalories > 0 ? (
                 <View style={styles.row}>
-                  <ThemedText type="body">Treats:</ThemedText>
-                  <ThemedText type="body">{item.treatCalories} kcal</ThemedText>
+                  <ThemedText type="body">{t("profiles.treats")}</ThemedText>
+                  <ThemedText type="body">
+                    {item.treatCalories} {t("food.kcal")}
+                  </ThemedText>
                 </View>
               ) : null}
 
@@ -164,7 +173,7 @@ export default function SavedProfilesScreen() {
                     size="small"
                     onPress={() => setDeleteTarget(item)}
                   >
-                    DELETE
+                    {t("profiles.delete")}
                   </PixelButton>
                 </View>
                 <View style={styles.buttonFlex}>
@@ -173,14 +182,18 @@ export default function SavedProfilesScreen() {
                     size="small"
                     onPress={() => handleEdit(item)}
                   >
-                    EDIT
+                    {t("profiles.edit")}
                   </PixelButton>
                 </View>
               </View>
             </View>
           ) : (
             <ThemedText type="small" style={{ color: theme.textSecondary }}>
-              Saved {new Date(item.savedAt).toLocaleDateString()}
+              {t("profiles.saved", {
+                date: new Date(item.savedAt).toLocaleDateString(
+                  locale === "ko" ? "ko-KR" : "en-US",
+                ),
+              })}
             </ThemedText>
           )}
         </PixelCard>
@@ -191,13 +204,13 @@ export default function SavedProfilesScreen() {
   const renderEmpty = () => (
     <View style={styles.emptyContainer}>
       <ThemedText type="h4" style={styles.emptyTitle}>
-        NO SAVED CAT YET
+        {t("profiles.noSavedCat")}
       </ThemedText>
       <ThemedText
         type="body"
         style={[styles.emptySubtext, { color: theme.textSecondary }]}
       >
-        Save a profile from the Food Setup screen.
+        {t("profiles.noSavedCatDesc")}
       </ThemedText>
     </View>
   );
@@ -220,13 +233,15 @@ export default function SavedProfilesScreen() {
       />
       <PixelModal
         visible={!!deleteTarget}
-        title="DELETE CAT?"
+        title={t("profiles.deleteCat")}
         onConfirm={handleDeleteConfirm}
         onCancel={() => setDeleteTarget(null)}
-        confirmLabel="DELETE"
+        confirmLabel={t("profiles.delete")}
       >
         <ThemedText type="body" style={styles.deleteText}>
-          {deleteTarget?.name || "This cat"} will be removed.
+          {t("profiles.deleteConfirm", {
+            name: deleteTarget?.name || t("profiles.thisCat"),
+          })}
         </ThemedText>
       </PixelModal>
     </View>

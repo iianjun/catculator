@@ -2,6 +2,7 @@ import { Text, type TextProps } from "react-native";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Typography } from "@/constants/theme";
+import { getPixelFont } from "@/i18n/font";
 
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
@@ -58,8 +59,9 @@ export function ThemedText({
   return (
     <Text
       style={[
-        { color: getColor(), fontFamily: "PressStart2P_400Regular" },
+        { color: getColor() },
         getTypeStyle(),
+        { fontFamily: getPixelFont() },
         style,
       ]}
       {...rest}

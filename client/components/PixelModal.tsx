@@ -5,6 +5,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { PixelButton } from "@/components/PixelButton";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, PixelShadow } from "@/constants/theme";
+import i18n from "@/i18n";
 
 interface PixelModalProps {
   visible: boolean;
@@ -21,8 +22,8 @@ export function PixelModal({
   title,
   onConfirm,
   onCancel,
-  confirmLabel = "OK",
-  cancelLabel = "CANCEL",
+  confirmLabel = i18n.t("common.ok"),
+  cancelLabel = i18n.t("common.cancel"),
   children,
 }: PixelModalProps) {
   const { theme } = useTheme();

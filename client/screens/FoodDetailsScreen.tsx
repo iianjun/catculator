@@ -18,6 +18,7 @@ import { Spacing, PixelShadow } from "@/constants/theme";
 import { FoodType, calculateFoodPortions } from "@/lib/calculator";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { saveCatProfile, updateCatProfile, CatProfile } from "@/lib/storage";
+import { useTranslation } from "@/i18n/useTranslation";
 
 type FoodDetailsRouteProp = RouteProp<RootStackParamList, "FoodDetails">;
 type NavigationProp = NativeStackNavigationProp<
@@ -25,17 +26,12 @@ type NavigationProp = NativeStackNavigationProp<
   "FoodDetails"
 >;
 
-const FOOD_TYPE_OPTIONS = [
-  { value: "wet", label: "Wet Only" },
-  { value: "dry", label: "Dry Only" },
-  { value: "both", label: "Both" },
-];
-
 export default function FoodDetailsScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<FoodDetailsRouteProp>();
+  const { t } = useTranslation();
 
   const {
     der,
@@ -70,6 +66,12 @@ export default function FoodDetailsScreen() {
   const dryCal = parseFloat(dryFoodCaloriesPerKg) || 0;
   const treatCal = parseFloat(treatCalories) || 0;
 
+  const foodTypeOptions = [
+    { value: "wet", label: t("food.wetOnly") },
+    { value: "dry", label: t("food.dryOnly") },
+    { value: "both", label: t("food.both") },
+  ];
+
   const calculation = useMemo(() => {
     return calculateFoodPortions(
       der,
@@ -91,10 +93,11 @@ export default function FoodDetailsScreen() {
       total += wetCal * pouches;
       total += dryCal > 0 ? (calculation.dryFoodGrams / 1000) * dryCal : 0;
     }
-    return Math.round(total);
+    return Math.floor(total * 10) / 10;
   }, [foodType, treatCal, wetCal, dryCal, pouches, calculation]);
 
-  const remaining = der - totalConsumed;
+  const remaining = Math.floor((der - totalConsumed) * 10) / 10;
+
   const isOverBudget = remaining < 0;
 
   const handleDone = () => {
@@ -145,17 +148,17 @@ export default function FoodDetailsScreen() {
     >
       <PixelCard style={styles.infoCard} wrapperStyle={styles.infoWrapper}>
         <ThemedText type="body" style={styles.infoText}>
-          Daily calories needed:
+          {t("food.dailyCalories")}
         </ThemedText>
         <ThemedText type="h2" style={styles.derValue}>
-          {der} kcal
+          {der} {t("food.kcal")}
         </ThemedText>
       </PixelCard>
 
       <View style={styles.form}>
         <PixelSelect
-          label="FOOD TYPE"
-          options={FOOD_TYPE_OPTIONS}
+          label={t("food.foodType")}
+          options={foodTypeOptions}
           value={foodType}
           onChange={(val) => setFoodType(val as FoodType)}
           columns={3}
@@ -164,11 +167,9 @@ export default function FoodDetailsScreen() {
         {foodType === "wet" || foodType === "both" ? (
           <View>
             <View style={styles.labelWithTooltip}>
-              <ThemedText type="body">WET FOOD CALORIES</ThemedText>
+              <ThemedText type="body">{t("food.wetFoodCalories")}</ThemedText>
               <PixelTooltip
-                content={
-                  "Where to find:\n\nCheck the label for calories listed per container, such as 'kcal/can' or 'kcal/pouch' (e.g., 169 kcal ME/can)."
-                }
+                content={t("food.wetTooltip")}
                 textStyle={{ fontSize: 9 }}
                 tooltipStyle={{ padding: Spacing.md }}
               />
@@ -180,7 +181,7 @@ export default function FoodDetailsScreen() {
                   onChangeText={setWetFoodCalories}
                   placeholder="80"
                   keyboardType="decimal-pad"
-                  unit="kcal/pouch"
+                  unit={t("food.kcalPouch")}
                 />
               </View>
               {foodType === "both" ? (
@@ -257,11 +258,9 @@ export default function FoodDetailsScreen() {
         {foodType === "dry" || foodType === "both" ? (
           <View>
             <View style={styles.labelWithTooltip}>
-              <ThemedText type="body">DRY FOOD CALORIES</ThemedText>
+              <ThemedText type="body">{t("food.dryFoodCalories")}</ThemedText>
               <PixelTooltip
-                content={
-                  "Where to find:\n\nCheck the 'Calorie Content' or 'Guaranteed Analysis' section on your cat food packaging. Most brands list this value as kcal/kg."
-                }
+                content={t("food.dryTooltip")}
                 textStyle={{
                   fontSize: 9,
                 }}
@@ -275,18 +274,16 @@ export default function FoodDetailsScreen() {
               onChangeText={setDryFoodCaloriesPerKg}
               placeholder="3500"
               keyboardType="decimal-pad"
-              unit="kcal/kg"
+              unit={t("food.kcalKg")}
             />
           </View>
         ) : null}
 
         <View>
           <View style={styles.labelWithTooltip}>
-            <ThemedText type="body">TREAT CALORIES</ThemedText>
+            <ThemedText type="body">{t("food.treatCalories")}</ThemedText>
             <PixelTooltip
-              content={
-                "Enter the combined calories of all daily treats.\n\nMost treat packages list calories per piece — just multiply by the number of treats per day.\n(Example: 2 kcal/piece \u00d7 5 pieces = 10 kcal)"
-              }
+              content={t("food.treatTooltip")}
               textStyle={{ fontSize: 9 }}
               tooltipStyle={{ padding: Spacing.md }}
             />
@@ -296,14 +293,14 @@ export default function FoodDetailsScreen() {
             onChangeText={setTreatCalories}
             placeholder="0"
             keyboardType="decimal-pad"
-            unit="kcal"
+            unit={t("food.kcal")}
           />
         </View>
       </View>
 
       <View style={styles.resultSection}>
         <ThemedText type="h4" style={styles.resultTitle}>
-          DAILY PORTIONS
+          {t("food.dailyPortions")}
         </ThemedText>
 
         <ScrollView
@@ -319,17 +316,17 @@ export default function FoodDetailsScreen() {
                 resizeMode="contain"
               />
               <ThemedText type="body" style={styles.foodLabel}>
-                Wet Food
+                {t("food.wetFood")}
               </ThemedText>
               <ThemedText type="h3" style={styles.foodValue}>
                 {foodType === "both" && dryCal > 0
-                  ? `${pouches} pouch${pouches > 1 ? "es" : ""}`
-                  : `${calculation.wetFoodGrams}g`}
+                  ? `${pouches} ${pouches > 1 ? t("food.pouches") : t("food.pouch")}`
+                  : `${calculation.wetFoodGrams}${t("food.gram")}`}
               </ThemedText>
               {foodType === "wet" || (foodType === "both" && dryCal <= 0) ? (
                 <ThemedText type="small" style={styles.foodSubtext}>
                   ({Math.round((calculation.wetFoodGrams / 85) * 10) / 10}{" "}
-                  pouches)
+                  {t("food.pouches")})
                 </ThemedText>
               ) : null}
             </PixelCard>
@@ -343,13 +340,14 @@ export default function FoodDetailsScreen() {
                 resizeMode="contain"
               />
               <ThemedText type="body" style={styles.foodLabel}>
-                Dry Food
+                {t("food.dryFood")}
               </ThemedText>
               <ThemedText type="h3" style={styles.foodValue}>
-                {calculation.dryFoodGrams}g
+                {calculation.dryFoodGrams}
+                {t("food.gram")}
               </ThemedText>
               <ThemedText type="small" style={styles.foodSubtext}>
-                per day
+                {t("food.perDay")}
               </ThemedText>
             </PixelCard>
           ) : null}
@@ -362,16 +360,16 @@ export default function FoodDetailsScreen() {
                 resizeMode="contain"
               />
               <ThemedText type="body" style={styles.foodLabel}>
-                Treats
+                {t("food.treats")}
               </ThemedText>
               <ThemedText type="h3" style={styles.foodValue}>
-                {treatCal} kcal
+                {treatCal} {t("food.kcal")}
               </ThemedText>
             </PixelCard>
           ) : null}
         </ScrollView>
 
-        {isOverBudget ? (
+        {isOverBudget && foodType === "both" ? (
           <PixelCard style={styles.warningCard}>
             <Image
               source={require("../../assets/images/obesity-cat.webp")}
@@ -382,7 +380,7 @@ export default function FoodDetailsScreen() {
               type="body"
               style={[styles.warningText, { color: theme.error }]}
             >
-              Meouch! Too many calories can lead to a cat-astrophic waistline.
+              {t("food.overbudgetWarning")}
             </ThemedText>
           </PixelCard>
         ) : null}
@@ -390,15 +388,20 @@ export default function FoodDetailsScreen() {
         {foodType === "both" && wetCal > 0 ? (
           <PixelCard style={styles.breakdownCard}>
             <ThemedText type="body" style={styles.breakdownText}>
-              Wet food: {wetCal * pouches} kcal ({pouches} x {wetCal})
+              {t("food.wetFoodBreakdown", {
+                kcal: wetCal * pouches,
+                pouches,
+                perPouch: wetCal,
+              })}
             </ThemedText>
             <ThemedText type="body" style={styles.breakdownText}>
-              Dry food: {Math.round(calculation.dryFoodGrams * (dryCal / 1000))}{" "}
-              kcal
+              {t("food.dryFoodBreakdown", {
+                kcal: Math.round(calculation.dryFoodGrams * (dryCal / 1000)),
+              })}
             </ThemedText>
             {treatCal > 0 ? (
               <ThemedText type="body" style={styles.breakdownText}>
-                Treats: {treatCal} kcal
+                {t("food.treatsBreakdown", { kcal: treatCal })}
               </ThemedText>
             ) : null}
             <ThemedText
@@ -409,7 +412,7 @@ export default function FoodDetailsScreen() {
                 isOverBudget && { color: theme.error },
               ]}
             >
-              Total: {totalConsumed} / {der} kcal
+              {t("food.totalBreakdown", { consumed: totalConsumed, der })}
               {isOverBudget ? ` (${remaining})` : ""}
             </ThemedText>
           </PixelCard>
@@ -419,28 +422,28 @@ export default function FoodDetailsScreen() {
       <View style={styles.floatingButtonContainer}>
         {!isEditMode && (
           <PixelButton onPress={handleDone} size="large">
-            DONE
+            {t("food.done")}
           </PixelButton>
         )}
         <View style={styles.saveButtonSpacing}>
           <PixelButton onPress={handleSave} size="large" variant="secondary">
-            {isEditMode ? "UPDATE" : "SAVE"}
+            {isEditMode ? t("food.update") : t("food.save")}
           </PixelButton>
         </View>
       </View>
 
       <PixelModal
         visible={saveModalVisible}
-        title="NAME YOUR CAT"
+        title={t("food.nameYourCat")}
         onConfirm={handleSaveConfirm}
         onCancel={handleSaveCancel}
-        confirmLabel={isEditMode ? "UPDATE" : "SAVE"}
+        confirmLabel={isEditMode ? t("food.update") : t("food.save")}
       >
         <PixelInput
-          label="CAT NAME"
+          label={t("food.catName")}
           value={catName}
           onChangeText={setCatName}
-          placeholder="Mochi"
+          placeholder={t("food.catNamePlaceholder")}
         />
       </PixelModal>
     </ScrollView>

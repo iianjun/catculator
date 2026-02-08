@@ -1,4 +1,5 @@
 import { Platform } from "react-native";
+import { getPixelFont } from "@/i18n/font";
 
 // Colors extracted from the cat pixel art
 // Cream body, warm brown/taupe fur, dusty pink ears/nose, charcoal outlines
@@ -164,26 +165,16 @@ export const Typography = {
   },
 };
 
-export const Fonts = Platform.select({
-  ios: {
-    sans: "PressStart2P_400Regular",
-    serif: "PressStart2P_400Regular",
-    rounded: "PressStart2P_400Regular",
-    mono: "PressStart2P_400Regular",
-  },
-  default: {
-    sans: "PressStart2P_400Regular",
-    serif: "PressStart2P_400Regular",
-    rounded: "PressStart2P_400Regular",
-    mono: "PressStart2P_400Regular",
-  },
-  web: {
-    sans: "'Press Start 2P', monospace",
-    serif: "'Press Start 2P', monospace",
-    rounded: "'Press Start 2P', monospace",
-    mono: "'Press Start 2P', monospace",
-  },
-});
+export function getFonts() {
+  const font = getPixelFont();
+  return Platform.select({
+    ios: { sans: font, serif: font, rounded: font, mono: font },
+    default: { sans: font, serif: font, rounded: font, mono: font },
+    web: { sans: font, serif: font, rounded: font, mono: font },
+  });
+}
+
+export const Fonts = getFonts();
 
 // Pixel shadow style
 export const PixelShadow = {

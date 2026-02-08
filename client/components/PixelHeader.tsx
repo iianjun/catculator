@@ -6,16 +6,19 @@ import { Spacing } from "@/constants/theme";
 
 interface PixelHeaderProps {
   title: string;
+  showIcon?: boolean;
 }
 
-export function PixelHeader({ title }: PixelHeaderProps) {
+export function PixelHeader({ title, showIcon }: PixelHeaderProps) {
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../assets/images/face.webp")}
-        style={styles.icon}
-        resizeMode="contain"
-      />
+      {showIcon && (
+        <Image
+          source={require("../../assets/images/face.webp")}
+          style={styles.icon}
+          resizeMode="contain"
+        />
+      )}
       <ThemedText type="h3" style={styles.title}>
         {title}
       </ThemedText>
