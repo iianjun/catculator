@@ -6,7 +6,7 @@ import * as Haptics from "expo-haptics";
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, PixelShadow } from "@/constants/theme";
-import { getPixelFont } from "@/i18n/font";
+import { getPixelFont, FONT_SIZE_SCALE } from "@/i18n/font";
 
 interface PixelInputProps {
   label?: string;
@@ -84,7 +84,11 @@ export function PixelInput({
             <TextInput
               style={[
                 styles.textInput,
-                { color: theme.text, fontFamily: getPixelFont() },
+                {
+                  color: theme.text,
+                  fontFamily: getPixelFont(),
+                  fontSize: Math.round(12 * FONT_SIZE_SCALE),
+                },
               ]}
               value={value}
               onChangeText={onChangeText}

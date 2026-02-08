@@ -15,14 +15,14 @@ import { queryClient } from "@/lib/query-client";
 import RootStackNavigator from "@/navigation/RootStackNavigator";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
-const neodgmFont = require("../assets/fonts/neodgm.ttf");
+const galmuriFont = require("../assets/fonts/galmuri.ttf");
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     PressStart2P_400Regular,
-    neodgm: neodgmFont,
+    "Galmuri11-Bold": galmuriFont,
   });
 
   useEffect(() => {

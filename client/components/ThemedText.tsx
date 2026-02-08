@@ -2,7 +2,7 @@ import { Text, type TextProps } from "react-native";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Typography } from "@/constants/theme";
-import { getPixelFont } from "@/i18n/font";
+import { getPixelFont, FONT_SIZE_SCALE } from "@/i18n/font";
 
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
@@ -56,12 +56,20 @@ export function ThemedText({
     }
   };
 
+  const typeStyle = getTypeStyle();
+  const scaledFontSize = Math.round(typeStyle.fontSize * FONT_SIZE_SCALE);
+  const scaledLineHeight = Math.round(typeStyle.lineHeight * FONT_SIZE_SCALE);
+
   return (
     <Text
       style={[
         { color: getColor() },
-        getTypeStyle(),
-        { fontFamily: getPixelFont() },
+        typeStyle,
+        {
+          fontFamily: getPixelFont(),
+          fontSize: scaledFontSize,
+          lineHeight: scaledLineHeight,
+        },
         style,
       ]}
       {...rest}
